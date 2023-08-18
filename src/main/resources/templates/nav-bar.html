@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Management</title>
+</head>
+<body>
+<div th:fragment="nav-bar">
+    <!-- Nội dung của phần nav-bar -->
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <div class="nav_list">
+                    <a href="#" th:href="@{/school}" class="nav_link" id="nav-school">
+                        <img src="https://img.icons8.com/?size=512&id=RWH5eUW9Vr7f&format=png" width="32px">
+                        <span class="nav_name">Table School</span>
+                    </a>
+                    <a href="#" th:href="@{/class}" class="nav_link"  id="nav-class">
+                        <img src="https://img.icons8.com/?size=512&id=lfsImOry3hBk&format=png" width="29px">
+                        <span class="nav_name">Table Class</span>
+                    </a>
+                    <a href="#" th:href="@{/student}" class="nav_link"  id="nav-student">
+                        <img src="https://img.icons8.com/?size=512&id=XKedzxVhRNPR&format=png" width="29px">
+                        <span class="nav_name">Table Student</span>
+                    </a>
+                    <a href="#" th:href="@{/teacher}" class="nav_link"  id="nav-teacher">
+                        <img src="https://img.icons8.com/?size=512&id=mBzT9ySeO_go&format=png" width="29px">
+                        <span class="nav_name">Table Teacher</span>
+                    </a>
+                    <a href="#" th:href="@{/subject}" class="nav_link"  id="nav-subject">
+                        <img src="https://img.icons8.com/?size=512&id=16369&format=png" width="29px">
+                        <span class="nav_name">Table Subject</span>
+                    </a>
+                </div>
+            </div>
+            <a href="#" th:href="@{/logout}" class="nav_link">
+                <i class="bx bx-log-out nav_icon"></i>
+                <span class="nav_name" >SignOut</span>
+            </a>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

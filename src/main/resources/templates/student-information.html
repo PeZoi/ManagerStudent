@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+        :root {
+            --header-height: 3rem;
+            --nav-width: 68px;
+            --first-color: #4723d9;
+            --first-color-light: #afa5d9;
+            --white-color: #f7f6fb;
+            --body-font: "Nunito", sans-serif;
+            --normal-font-size: 1rem;
+            --z-fixed: 100;
+        }
+
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            position: relative;
+            margin: var(--header-height) 0 0 0;
+            padding: 0 1rem;
+            font-family: var(--body-font);
+            font-size: var(--normal-font-size);
+            transition: 0.5s;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .header {
+            width: 100%;
+            height: var(--header-height);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            background-color: var(--white-color);
+            z-index: var(--z-fixed);
+            transition: 0.5s;
+        }
+
+        .header_toggle {
+            color: var(--first-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .header_img {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .header_img img {
+            width: 40px;
+        }
+
+        .l-navbar {
+            position: fixed;
+            top: 0;
+            left: -30%;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--first-color);
+            padding: 0.5rem 1rem 0 0;
+            transition: 0.5s;
+            z-index: var(--z-fixed);
+        }
+
+        .nav {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .nav_logo,
+        .nav_link {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            align-items: center;
+            column-gap: 1rem;
+            padding: 0.5rem 0 0.5rem 1.5rem;
+        }
+
+        .nav_logo {
+            margin-bottom: 2rem;
+        }
+
+        .nav_logo-icon {
+            font-size: 1.25rem;
+            color: var(--white-color);
+        }
+
+        .nav_logo-name {
+            color: var(--white-color);
+            font-weight: 700;
+        }
+
+        .nav_link {
+            position: relative;
+            color: var(--first-color-light);
+            margin-bottom: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .nav_link:hover {
+            color: var(--white-color);
+        }
+
+        .nav_icon {
+            font-size: 1.25rem;
+        }
+
+        .show {
+            left: 0;
+        }
+
+        .body-pd {
+            padding-left: calc(var(--nav-width) + 1rem);
+        }
+
+        .active {
+            color: var(--white-color);
+        }
+
+        .active::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 2px;
+            height: 32px;
+            background-color: var(--white-color);
+        }
+
+        .height-100 {
+            height: 100vh;
+        }
+
+        @media screen and (min-width: 768px) {
+            body {
+                margin: calc(var(--header-height) + 1rem) 0 0 0;
+                padding-left: calc(var(--nav-width) + 2rem);
+            }
+
+            .header {
+                height: calc(var(--header-height) + 1rem);
+                padding: 0 2rem 0 calc(var(--nav-width) + 2rem);
+            }
+
+            .header_img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .header_img img {
+                width: 45px;
+            }
+
+            .l-navbar {
+                left: 0;
+                padding: 1rem 1rem 0 0;
+            }
+
+            .show {
+                width: calc(var(--nav-width) + 156px);
+            }
+
+            .body-pd {
+                padding-left: calc(var(--nav-width) + 188px);
+            }
+        }
+
+        .modal-backdrop {
+            width: 100%;
+        }
+
+        tr {
+            text-align: center;
+        }
+
+        tr td img {
+            width: 80px;
+            height: 50px;
+            object-fit: cover;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+
+<body id="body-pd">
+<!-- Loading -->
+<div id="loading" style="display: none;">
+    <img th:src="@{/img/loading.gif}" alt="Loading...">
+</div>
+
+
+<!-- Header -->
+<div th:include="header :: header"></div>
+<!-- End Header-->
+
+<!-- Nav bar -->
+<div sec:authorize="hasAnyRole('ADMIN', 'TEACHER')" th:include="nav-bar :: nav-bar"></div>
+<!-- End Nav bar -->
+
+<!-- Main component-->
+<div class="container" style="margin-top: 100px; margin-bottom: 100px">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header bold">STUDENT INFORMATION</div>
+                <div class="card-body" style="font-size: 14px">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img th:src="${student.getAvatar() != null} ? ${student.getAvatar()} : 'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg'"
+                                 class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover"
+                                 alt="Avatar"/>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="mb-2">ID: <span class="bold"
+                                                                  th:text="${student.getIdStudent()}"></span></label>
+                                    <br>
+                                    <label class="mb-2">Full name: <span class="bold"
+                                                                         th:text="${student.getNameStudent()}">Phạm Ngọc viễn Đông</span></label>
+                                    <br>
+                                    <label>Date of birth: <span class="bold"
+                                                                th:text="${student.getDateOfBirth()}"></span></label>
+                                    <br>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="mb-2">Email: <span class="bold" th:text="${student.getEmail()}">dongph.0502@gmail.com</span></label>
+                                    <br>
+                                    <label class="mb-2">Phone number: <span class="bold"
+                                                                            th:text="${student.getPhoneNumber()}">0813535314</span></label>
+                                    <br>
+                                    <label>Address: <span class="bold" th:text="${student.getAddress()}">219/3 Kp4 Tân Biên, Biên Hoà, Đồng Nai</span></label>
+                                    <br>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="mb-2">School: <span class="bold"
+                                                                      th:text="${student.getClasss().getSchool().getNameSchool()}">Trường THPT chuyên Lương Thế Vinh</span></label>
+                                    <br>
+                                    <label>Class: <span class="bold" th:text="${student.getClasss().getNameClass()}">12A7</span></label>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header bold">PARENT INFORMATION</div>
+                <div class="card-body" style="font-size: 14px">
+                    <label class="mb-2">Full name: <span class="bold" th:text="${student.getParent().getNameParent()}">Phạm Văn Được</span></label>
+                    <br>
+                    <label>Phone number: <span class="bold"
+                                               th:text="${student.getParent().getPhoneNumber()}">0813535314</span></label>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-5">
+        <div class="card-header bold">SCHOOL TRANSCRIPT</div>
+        <div class="card-body" style="font-size: 14px">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th rowspan="2" style="text-align: center;vertical-align: middle;">#</th>
+                    <th rowspan="2" style="text-align: center;vertical-align: middle;">Subject</th>
+                    <th rowspan="1" colspan="3">Semester 1</th>
+                    <th rowspan="1" colspan="3">Semester 2</th>
+                    <th rowspan="2" style="text-align: center;vertical-align: middle;">Average</th>
+                    <th sec:authorize="hasAnyRole('ADMIN', 'TEACHER')" rowspan="2" style="text-align: center;vertical-align: middle;">Action</th>
+                </tr>
+                <tr>
+                    <th rowspan="1">15'</th>
+                    <th rowspan="1">45'</th>
+                    <th rowspan="1">Final</th>
+                    <th rowspan="1">15'</th>
+                    <th rowspan="1">45'</th>
+                    <th rowspan="1">Final</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="rp, rowStat : ${reportCards}">
+                    <tr data-th-id="'tr-' + ${rowStat.count}">
+                        <td th:text="${rowStat.count}"></td>
+                        <td th:text="${rp.getSubject.getNameSubject}"></td>
+                        <th:block th:each="rpdetail : ${rp.reportCardDetail}">
+                            <td class="score" data-th-id="${rpdetail.id}" data-toggle="modal"
+                                data-target="#myModal"
+                                th:if="${rpdetail.semester == 'HK1' && rpdetail.nameReport == '15'}"
+                                th:text="${rpdetail.score == 0} ? '' : ${rpdetail.score}"></td>
+
+                            <td class="score" data-th-id="${rpdetail.id}" data-toggle="modal"
+                                data-target="#myModal"
+                                th:if="${rpdetail.semester == 'HK1' && rpdetail.nameReport == '45'}"
+                                th:text="${rpdetail.score == 0} ? '' : ${rpdetail.score}"></td>
+
+                            <td class="score" data-th-id="${rpdetail.id}" data-toggle="modal"
+                                data-target="#myModal"
+                                th:if="${rpdetail.semester == 'HK1' && rpdetail.nameReport == 'Final'}"
+                                th:text="${rpdetail.score == 0} ? '' : ${rpdetail.score}"></td>
+
+                            <td class="score" data-th-id="${rpdetail.id}" data-toggle="modal"
+                                data-target="#myModal"
+                                th:if="${rpdetail.semester == 'HK2' && rpdetail.nameReport == '15'}"
+                                th:text="${rpdetail.score == 0} ? '' : ${rpdetail.score}"></td>
+
+                            <td class="score" data-th-id="${rpdetail.id}" data-toggle="modal"
+                                data-target="#myModal"
+                                th:if="${rpdetail.semester == 'HK2' && rpdetail.nameReport == '45'}"
+                                th:text="${rpdetail.score == 0} ? '' : ${rpdetail.score}"></td>
+
+                            <td class="score" data-th-id="${rpdetail.id}" data-toggle="modal"
+                                data-target="#myModal"
+                                th:if="${rpdetail.semester == 'HK2' && rpdetail.nameReport == 'Final'}"
+                                th:text="${rpdetail.score == 0} ? '' : ${rpdetail.score}"></td>
+                        </th:block>
+                        <td data-th-id="'avg-' + ${rowStat.count} ">10</td>
+                        <td sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
+                            <button th:onclick="'loadScoreUpdate(' + ${rp.idReportCard} + ')'" type="button"
+                                    class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-score">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-score" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="width: 100%">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update Score </h1>
+                    <h4 class="ms-3"><span id="nameSubject" class="badge bg-primary">Toán</span></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form-reportCard">
+                    <div class="modal-body">
+                        <div id="semester-1">
+                            <h5><span class="badge bg-primary">Semester 1</span></h5>
+                            <div class="row">
+                                <div class="mb-3 col-4">
+                                    <span class="input-group-text">15'</span>
+                                    <input type="number" step="0.1" min="0" max="10" id="semester-1-15"
+                                           name="semester-1-15" class="form-control">
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <span class="input-group-text">45'</span>
+                                    <input type="number" step="0.1" min="0" max="10" id="semester-1-45"
+                                           name="semester-1-45" class="form-control">
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <span class="input-group-text">Final</span>
+                                    <input type="number" step="0.1" min="0" max="10" id="semester-1-final"
+                                           name="semester-1-final"
+                                           class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="semester-2">
+                            <h5><span class="badge bg-primary">Semester 2</span></h5>
+                            <div class="row">
+                                <div class="mb-3 col-4">
+                                    <span class="input-group-text">15'</span>
+                                    <input type="number" step="0.1" min="0" max="10" id="semester-2-15"
+                                           name="semester-2-15" class="form-control">
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <span class="input-group-text">45'</span>
+                                    <input type="number" step="0.1" min="0" max="10" id="semester-2-45"
+                                           name="semester-2-45" class="form-control">
+                                </div>
+                                <div class="mb-3 col-4">
+                                    <span class="input-group-text">Final</span>
+                                    <input type="number" step="0.1" min="0" max="10" id="semester-2-final"
+                                           name="semester-2-final"
+                                           class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Main component-->
+
+
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+<!--Slide bar-->
+<script type="text/javascript" th:src="@{/js/slide-bar.js}"></script>
+<script type="text/javascript">
+    // Biến toàn cục
+    let form = null;
+
+    function loadScoreUpdate(idReportCard) {
+        $('#form-reportCard').get(0).reset();
+
+        $.ajax({
+            header: {
+                contentType: 'application/json;charset=UTF-8'
+            },
+            type: "GET",
+            contentType: "application/json",
+            url: "/report-card/api/" + idReportCard,
+            success: function (response) {
+                form = response;
+                // Load môn học
+                $('#nameSubject').text(response.subject.nameSubject);
+
+                // Load điểm HK 1
+                $.each(response.reportCardDetail, function (key, value) {
+                    if (value.semester === "HK1") {
+                        if (value.nameReport === "15" && value.score !== 0) {
+                            $('#semester-1-15').val(value.score);
+                        } else if (value.nameReport === "45" && value.score !== 0) {
+                            $('#semester-1-45').val(value.score);
+                        } else if (value.nameReport === "Final" && value.score !== 0) {
+                            $('#semester-1-final').val(value.score);
+                        }
+                    }
+                })
+
+                // Load điểm HK 2
+                $.each(response.reportCardDetail, function (key, value) {
+                    if (value.semester === "HK2") {
+                        if (value.nameReport === "15" && value.score !== 0) {
+                            $('#semester-2-15').val(value.score);
+                        } else if (value.nameReport === "45" && value.score !== 0) {
+                            $('#semester-2-45').val(value.score);
+                        } else if (value.nameReport === "Final" && value.score !== 0) {
+                            $('#semester-2-final').val(value.score);
+                        }
+                    }
+                })
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(xhr.status + ': ' + errorThrown + ' ' + xhr.responseText);
+            }
+        });
+    }
+
+    $("#form-reportCard").submit(function (event) {
+        event.preventDefault();
+        $('#loading').show();
+
+        let formData = new FormData(this);
+
+        form.reportCardDetail[0].score = formData.get("semester-1-15");
+        form.reportCardDetail[1].score = formData.get("semester-1-45");
+        form.reportCardDetail[2].score = formData.get("semester-1-final");
+        form.reportCardDetail[3].score = formData.get("semester-2-15");
+        form.reportCardDetail[4].score = formData.get("semester-2-45");
+        form.reportCardDetail[5].score = formData.get("semester-2-final");
+
+        formData.append("reportCardDetail", JSON.stringify(form.reportCardDetail));
+
+        $.ajax({
+            header: {
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8; multipart/form-data'
+            },
+            type: "POST",
+            contentType: false,
+            processData: false,
+            enctype: 'multipart/form-data',
+            url: "/report-card-detail/api/save",
+            data: formData,
+            success: function (response) {
+                // update lại bảng điểm
+                $.each(response, function (key, value) {
+                    if (value.score === 0) {
+                        $('#' + value.id).text('');
+                    } else {
+                        $('#' + value.id).text(value.score);
+                    }
+                })
+
+                // update lại điểm trung bình
+                loadScoreAvg();
+
+                $('#loading').hide();
+                alert("success", "Updated successfully!");
+            },
+            error: function (xhr, status, error) {
+                console.log(error + ": " + status);
+                alert("danger", "Updated failed");
+                $('#loading').hide();
+            }
+        });
+
+        $('#modal-score').modal('hide');
+    });
+
+    function loadScoreAvg() {
+        const rowCount = $('tbody tr').length; // lấy số dòng của bảng điểm
+
+        for (let i = 1; i <= rowCount; i++) {
+            let trElement = $('#tr-' + i);
+
+            // Các điểm (15, 45, final)
+            let score_15_1; // điểm 15' kỳ 1
+            let score_45_1; // điểm 45' kỳ 1
+            let score_final_1; // điểm final kỳ 1
+            let score_15_2; // điểm 15' kỳ 2
+            let score_45_2; // điểm 45' kỳ 2
+            let score_final_2; // điểm final kỳ 2
+
+            let score_avg = 0;
+
+            let check = true;
+            // Lặp qua các thẻ td có class là "score" bên trong thẻ tr
+            trElement.find('td.score').each(function () {
+                // Lấy nội dung văn bản của thẻ td và log ra
+                let score = parseFloat($(this).text());
+                if (isNaN(score) || score === 0) {
+                    check = false;
+                } else {
+                    score_avg += score;
+                }
+            });
+
+            if (check === true) {
+                score_avg = score_avg / 6;
+                $('#avg-' + i).text(score_avg.toFixed(2));
+            } else {
+                $('#avg-' + i).text('');
+            }
+        }
+    }
+
+    loadScoreAvg();
+</script>
+
+</body>
+
+</html>
