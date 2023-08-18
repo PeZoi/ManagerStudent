@@ -114,7 +114,11 @@ public class TeacherImple implements TeacherService {
 
             // Kiểm tra xem có idSubject không
             if (idSubjects != null) {
-                List<Subject> subjects = subjectRepository.findAllById(idSubjects);
+                List<Subject> subjects = new ArrayList<>();
+                for (Integer idSubject : idSubjects) {
+                    Optional<Subject> subjectOptional = subjectRepository.findById(idSubject);
+                    subjects.add(subjectOptional.get());
+                }
                 // Set lại dữ liệu quan hệ thay đổi
                 teacher_old.setSubjects(subjects);
             }
@@ -134,9 +138,10 @@ public class TeacherImple implements TeacherService {
             // Kiểm tra xem có idClass không (-1 làm mặc định là không chọn cái gì hết)
             // Nếu có chọn class
             if (!idClass.equals("-1")) {
+                Optional<Teacher> tempTeacher = teacherRepository.findById(teacher_old.getIdTeacher());
                 Optional<Class> classOptional = classRepository.findById(Integer.parseInt(idClass));
                 // Nếu có class thì set cái class này quan hệ với nhau
-                classOptional.get().setTeacher(teacher_old);
+                classOptional.get().setTeacher(tempTeacher.get());
                 // Set lại dữ liệu quan hệ thay đổi
                 teacher_old.setClasss(classOptional.get());
             } else {
@@ -147,6 +152,7 @@ public class TeacherImple implements TeacherService {
                 teacher_old.setClasss(null);
             }
 
+
             // Lưu object đó xuống database
             Teacher teacher_new = teacherRepository.saveAndFlush(teacher_old);
 
@@ -155,6 +161,7 @@ public class TeacherImple implements TeacherService {
 
             return teacherDTO;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
