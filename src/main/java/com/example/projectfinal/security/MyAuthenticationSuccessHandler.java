@@ -35,7 +35,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         // Lưu vào session
         HttpSession session = request.getSession();
         session.setAttribute("account_session", accountOptional.get());
-        System.out.println(session.getAttribute("account_session"));
 
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals("ROLE_USER")) {

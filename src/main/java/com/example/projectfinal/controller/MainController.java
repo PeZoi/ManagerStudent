@@ -31,8 +31,6 @@ public class MainController {
     private StudentService studentService;
     @Autowired
     private ReportCardService reportCardService;
-    @Autowired
-    private AccountRepository accountRepository;
 
     @GetMapping({"/login"})
     public String login() {

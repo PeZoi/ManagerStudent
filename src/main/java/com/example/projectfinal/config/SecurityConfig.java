@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -52,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/img/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/student-information/**").hasAnyRole("ADMIN", "TEACHER", "USER")
+                        .requestMatchers("/error/**").permitAll()
                         .anyRequest().hasAnyRole("ADMIN", "TEACHER")
         ).formLogin(
                 // Custom trang login (showLoginPage là 1 endpoint trong controller)
@@ -61,10 +63,11 @@ public class SecurityConfig {
                         .successHandler(authenticationSuccessHandler)
         ).logout(
                 // Ai cũng có thể đăng xuất được (logout -> logout.permitAll())
-                logout -> logout.permitAll()
+                LogoutConfigurer::permitAll
         ).exceptionHandling(
                 // Lỗi 403
-                configurer -> configurer.accessDeniedPage("/showPage403"));
+                configurer -> configurer.accessDeniedPage("/error/showPage403")
+        );
         http.httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
