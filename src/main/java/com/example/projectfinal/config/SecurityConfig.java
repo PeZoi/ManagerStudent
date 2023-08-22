@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/img/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/student-information/**").hasAnyRole("ADMIN", "TEACHER", "USER")
+                        .requestMatchers("/account/change-password/**").hasAnyRole("ADMIN", "TEACHER", "USER")
                         .requestMatchers("/error/**").permitAll()
                         .anyRequest().hasAnyRole("ADMIN", "TEACHER")
         ).formLogin(

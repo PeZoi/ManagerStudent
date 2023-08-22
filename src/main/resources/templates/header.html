@@ -4,6 +4,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Management</title>
+
+
 </head>
 <body>
 <div th:fragment="header">
@@ -12,30 +14,133 @@
         <div sec:authorize="hasAnyRole('ADMIN', 'TEACHER')" class="header_toggle">
             <i class="bx bx-menu" id="header-toggle"></i>
         </div>
-        <div class="me-5 d-flex justify-content-center align-items-center" style="position: absolute; top: 10px; right: 30px;">
-            <img th:src="${session.account_session.getStudent().getAvatar() != null} ? ${session.account_session.getStudent().getAvatar()} : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXFxcX////CwsL8/PzHx8fc3NzT09PJycn39/fMzMzs7Oz19fXZ2dnk5OTf39/v7+/o6OgDKYFyAAAE00lEQVR4nO2dx5qrMAxGQfTO+z/tjSFMGgnFEvrh6qxmMQvOZ1lyTxAYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhiEBET3/TT/+9Xw4nbRN2nCiS9okiIOLWFIQ122eR+Ebed4nxfmbkiiu+w+5P6IqKU7dkk4v/6p3l+xuLan9oTuhLFnSu0uW53SM23V+g2NfaH/uZihd7zc4Nufqj1SUm/wcea391Vuov6fPH5TZSZqRsn6Pn2vGVPvbV7G1Bz4T9dpfvwJKd0XoRA8fqJT6+A2K4I7bc+g7OXZp3JtjnomAFb1DdAS3L3ommRMo8rSgo9RWmSdmakFHjdiKWccnCDm6oXb5uzdQaft8wpVlJuCyDXHG6ABYVWSqhM+A5dN4/3ziKwlSnDKnmZE809Z6ImNOMyOtttYDaiQEwwqnEWWa8NYTtcUmKJERDDttsz/Ya+EdmJliJlAqRkCWUKmWEgw7kJIoFaQhytBNLkhBwlQwSCHCNA4CiRHbRBVrCzoqQcMQYq4vmGhuhgBhKtkNbx1Rf2wqbAgw+pY21E81KcdWxXfyRFuR/DebFtAOU3nD67ehGZqhGZqhGfqjXQ+DTGopcaTSX8ewkfcFDAvBhagwbLQTjeP6qxiyhvqrGJdfTRQ2LBEMRfbwJyC6YRDI7AA7QLby/4O9J7kwBQlSnpPBc8AciBYLU6BjUUJhChOkUo2IkmcGREZuEBvAd0QaEec0jYMEGhGnFw7wH/yCOnwZCBzey7WNPuCe6qM1IXuywZg2vcF56gRg+34OxnyKsHgxQ8ymCHkpyMGlCCvIVRXx0ugTHJsYHcIi8Feo9i6LPbSge27Asy8C98EJv3RzAkGvq5b5KQQ9BnAl+msDD4o9kRrBXJFZQ1xvdYwalKXDlVC8bRG1Ah2J/oKycvUI5+Z3NkGiIi2rtYZR1abZmRwpKPrNFSPv2pO8wHfTa/bW/K7FfymKKPUbtZUxtCPFrf/0Ka9hX26jdOUrgktUNeQrg1Qw7iJGLVywUvbjDc895AlYrDb8t7mR5hlUyFzuakBqB2sHfCVqELojw8rMDzr9rBrLHRcaiLQ3gmUPlw6UmlsYIo+2fBDpRerud0o3kqs94yJ6AfiFRqMV2Z4QXIXCIcVjBRWOuB0t6K4lHBqpJDAOXVQ8cpxKByXRN45bcBR6+ApI8ZA6P0d0jKLYu1coiqLXK1YoHmAoP9b+xQGPfh43VJunFVaMxS/FLiK7y6iZZSZEn6mjAya8y0geWyyOH6vNIXcNQ20s845YVVSthM9EQrPFWLtQPJCZ8x+z7LQSkTg9fM77C4lr+vIPYGxCYGiTaTu9wn8dQ/I68y64iyLCcO0V7sEb3zF8NhpWQd1p7zzMK6g4xf4B526GwG87MMC60o/YhKz3MiCb8NaIbPcW+H9hhQm2HXDAUjHCNsUALBUjXPNE2CBlyzUQy0/zMP3uFWgmdUQ82RQ3SJlyza77L0fBMocCDlKmbApbKxwss0TkbsjTES9vCN0NWTri9Q2xg5RjuQa5Gjq8OyLwsHvE2xBkU/Q73jsY4ImGoeaboTq+hgXStugsUeKliLchM4PXUoYZQmCGZoiPGZohPmZohvj4bUBl0OvBjij1nAJffvZkhvosGv4DMjNa45M9cp4AAAAASUVORK5CYII='" class="rounded-circle" alt="..." width="35px" height="35px" id="user-avatar" sec:authorize="hasRole('USER')">
-            <img th:src="${session.account_session.getTeacher().getAvatar() != null} ? ${session.account_session.getTeacher().getAvatar()} : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXFxcX////CwsL8/PzHx8fc3NzT09PJycn39/fMzMzs7Oz19fXZ2dnk5OTf39/v7+/o6OgDKYFyAAAE00lEQVR4nO2dx5qrMAxGQfTO+z/tjSFMGgnFEvrh6qxmMQvOZ1lyTxAYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhiEBET3/TT/+9Xw4nbRN2nCiS9okiIOLWFIQ122eR+Ebed4nxfmbkiiu+w+5P6IqKU7dkk4v/6p3l+xuLan9oTuhLFnSu0uW53SM23V+g2NfaH/uZihd7zc4Nufqj1SUm/wcea391Vuov6fPH5TZSZqRsn6Pn2vGVPvbV7G1Bz4T9dpfvwJKd0XoRA8fqJT6+A2K4I7bc+g7OXZp3JtjnomAFb1DdAS3L3ommRMo8rSgo9RWmSdmakFHjdiKWccnCDm6oXb5uzdQaft8wpVlJuCyDXHG6ABYVWSqhM+A5dN4/3ziKwlSnDKnmZE809Z6ImNOMyOtttYDaiQEwwqnEWWa8NYTtcUmKJERDDttsz/Ya+EdmJliJlAqRkCWUKmWEgw7kJIoFaQhytBNLkhBwlQwSCHCNA4CiRHbRBVrCzoqQcMQYq4vmGhuhgBhKtkNbx1Rf2wqbAgw+pY21E81KcdWxXfyRFuR/DebFtAOU3nD67ehGZqhGZqhGfqjXQ+DTGopcaTSX8ewkfcFDAvBhagwbLQTjeP6qxiyhvqrGJdfTRQ2LBEMRfbwJyC6YRDI7AA7QLby/4O9J7kwBQlSnpPBc8AciBYLU6BjUUJhChOkUo2IkmcGREZuEBvAd0QaEec0jYMEGhGnFw7wH/yCOnwZCBzey7WNPuCe6qM1IXuywZg2vcF56gRg+34OxnyKsHgxQ8ymCHkpyMGlCCvIVRXx0ugTHJsYHcIi8Feo9i6LPbSge27Asy8C98EJv3RzAkGvq5b5KQQ9BnAl+msDD4o9kRrBXJFZQ1xvdYwalKXDlVC8bRG1Ah2J/oKycvUI5+Z3NkGiIi2rtYZR1abZmRwpKPrNFSPv2pO8wHfTa/bW/K7FfymKKPUbtZUxtCPFrf/0Ka9hX26jdOUrgktUNeQrg1Qw7iJGLVywUvbjDc895AlYrDb8t7mR5hlUyFzuakBqB2sHfCVqELojw8rMDzr9rBrLHRcaiLQ3gmUPlw6UmlsYIo+2fBDpRerud0o3kqs94yJ6AfiFRqMV2Z4QXIXCIcVjBRWOuB0t6K4lHBqpJDAOXVQ8cpxKByXRN45bcBR6+ApI8ZA6P0d0jKLYu1coiqLXK1YoHmAoP9b+xQGPfh43VJunFVaMxS/FLiK7y6iZZSZEn6mjAya8y0geWyyOH6vNIXcNQ20s845YVVSthM9EQrPFWLtQPJCZ8x+z7LQSkTg9fM77C4lr+vIPYGxCYGiTaTu9wn8dQ/I68y64iyLCcO0V7sEb3zF8NhpWQd1p7zzMK6g4xf4B526GwG87MMC60o/YhKz3MiCb8NaIbPcW+H9hhQm2HXDAUjHCNsUALBUjXPNE2CBlyzUQy0/zMP3uFWgmdUQ82RQ3SJlyza77L0fBMocCDlKmbApbKxwss0TkbsjTES9vCN0NWTri9Q2xg5RjuQa5Gjq8OyLwsHvE2xBkU/Q73jsY4ImGoeaboTq+hgXStugsUeKliLchM4PXUoYZQmCGZoiPGZohPmZohvj4bUBl0OvBjij1nAJffvZkhvosGv4DMjNa45M9cp4AAAAASUVORK5CYII='" class="rounded-circle" alt="..." width="35px" height="35px" id="user-avatar" sec:authorize="hasRole('TEACHER')">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXFxcX////CwsL8/PzHx8fc3NzT09PJycn39/fMzMzs7Oz19fXZ2dnk5OTf39/v7+/o6OgDKYFyAAAE00lEQVR4nO2dx5qrMAxGQfTO+z/tjSFMGgnFEvrh6qxmMQvOZ1lyTxAYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhiEBET3/TT/+9Xw4nbRN2nCiS9okiIOLWFIQ122eR+Ebed4nxfmbkiiu+w+5P6IqKU7dkk4v/6p3l+xuLan9oTuhLFnSu0uW53SM23V+g2NfaH/uZihd7zc4Nufqj1SUm/wcea391Vuov6fPH5TZSZqRsn6Pn2vGVPvbV7G1Bz4T9dpfvwJKd0XoRA8fqJT6+A2K4I7bc+g7OXZp3JtjnomAFb1DdAS3L3ommRMo8rSgo9RWmSdmakFHjdiKWccnCDm6oXb5uzdQaft8wpVlJuCyDXHG6ABYVWSqhM+A5dN4/3ziKwlSnDKnmZE809Z6ImNOMyOtttYDaiQEwwqnEWWa8NYTtcUmKJERDDttsz/Ya+EdmJliJlAqRkCWUKmWEgw7kJIoFaQhytBNLkhBwlQwSCHCNA4CiRHbRBVrCzoqQcMQYq4vmGhuhgBhKtkNbx1Rf2wqbAgw+pY21E81KcdWxXfyRFuR/DebFtAOU3nD67ehGZqhGZqhGfqjXQ+DTGopcaTSX8ewkfcFDAvBhagwbLQTjeP6qxiyhvqrGJdfTRQ2LBEMRfbwJyC6YRDI7AA7QLby/4O9J7kwBQlSnpPBc8AciBYLU6BjUUJhChOkUo2IkmcGREZuEBvAd0QaEec0jYMEGhGnFw7wH/yCOnwZCBzey7WNPuCe6qM1IXuywZg2vcF56gRg+34OxnyKsHgxQ8ymCHkpyMGlCCvIVRXx0ugTHJsYHcIi8Feo9i6LPbSge27Asy8C98EJv3RzAkGvq5b5KQQ9BnAl+msDD4o9kRrBXJFZQ1xvdYwalKXDlVC8bRG1Ah2J/oKycvUI5+Z3NkGiIi2rtYZR1abZmRwpKPrNFSPv2pO8wHfTa/bW/K7FfymKKPUbtZUxtCPFrf/0Ka9hX26jdOUrgktUNeQrg1Qw7iJGLVywUvbjDc895AlYrDb8t7mR5hlUyFzuakBqB2sHfCVqELojw8rMDzr9rBrLHRcaiLQ3gmUPlw6UmlsYIo+2fBDpRerud0o3kqs94yJ6AfiFRqMV2Z4QXIXCIcVjBRWOuB0t6K4lHBqpJDAOXVQ8cpxKByXRN45bcBR6+ApI8ZA6P0d0jKLYu1coiqLXK1YoHmAoP9b+xQGPfh43VJunFVaMxS/FLiK7y6iZZSZEn6mjAya8y0geWyyOH6vNIXcNQ20s845YVVSthM9EQrPFWLtQPJCZ8x+z7LQSkTg9fM77C4lr+vIPYGxCYGiTaTu9wn8dQ/I68y64iyLCcO0V7sEb3zF8NhpWQd1p7zzMK6g4xf4B526GwG87MMC60o/YhKz3MiCb8NaIbPcW+H9hhQm2HXDAUjHCNsUALBUjXPNE2CBlyzUQy0/zMP3uFWgmdUQ82RQ3SJlyza77L0fBMocCDlKmbApbKxwss0TkbsjTES9vCN0NWTri9Q2xg5RjuQa5Gjq8OyLwsHvE2xBkU/Q73jsY4ImGoeaboTq+hgXStugsUeKliLchM4PXUoYZQmCGZoiPGZohPmZohvj4bUBl0OvBjij1nAJffvZkhvosGv4DMjNa45M9cp4AAAAASUVORK5CYII=" class="rounded-circle" alt="..." width="35px" height="35px" id="user-avatar" sec:authorize="hasRole('ADMIN')">
+        <div class="me-5 d-flex justify-content-center align-items-center"
+             style="position: absolute; top: 10px; right: 30px;">
+            <img th:src="${session.account_session.getStudent().getAvatar() != null} ? ${session.account_session.getStudent().getAvatar()} : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXFxcX////CwsL8/PzHx8fc3NzT09PJycn39/fMzMzs7Oz19fXZ2dnk5OTf39/v7+/o6OgDKYFyAAAE00lEQVR4nO2dx5qrMAxGQfTO+z/tjSFMGgnFEvrh6qxmMQvOZ1lyTxAYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhiEBET3/TT/+9Xw4nbRN2nCiS9okiIOLWFIQ122eR+Ebed4nxfmbkiiu+w+5P6IqKU7dkk4v/6p3l+xuLan9oTuhLFnSu0uW53SM23V+g2NfaH/uZihd7zc4Nufqj1SUm/wcea391Vuov6fPH5TZSZqRsn6Pn2vGVPvbV7G1Bz4T9dpfvwJKd0XoRA8fqJT6+A2K4I7bc+g7OXZp3JtjnomAFb1DdAS3L3ommRMo8rSgo9RWmSdmakFHjdiKWccnCDm6oXb5uzdQaft8wpVlJuCyDXHG6ABYVWSqhM+A5dN4/3ziKwlSnDKnmZE809Z6ImNOMyOtttYDaiQEwwqnEWWa8NYTtcUmKJERDDttsz/Ya+EdmJliJlAqRkCWUKmWEgw7kJIoFaQhytBNLkhBwlQwSCHCNA4CiRHbRBVrCzoqQcMQYq4vmGhuhgBhKtkNbx1Rf2wqbAgw+pY21E81KcdWxXfyRFuR/DebFtAOU3nD67ehGZqhGZqhGfqjXQ+DTGopcaTSX8ewkfcFDAvBhagwbLQTjeP6qxiyhvqrGJdfTRQ2LBEMRfbwJyC6YRDI7AA7QLby/4O9J7kwBQlSnpPBc8AciBYLU6BjUUJhChOkUo2IkmcGREZuEBvAd0QaEec0jYMEGhGnFw7wH/yCOnwZCBzey7WNPuCe6qM1IXuywZg2vcF56gRg+34OxnyKsHgxQ8ymCHkpyMGlCCvIVRXx0ugTHJsYHcIi8Feo9i6LPbSge27Asy8C98EJv3RzAkGvq5b5KQQ9BnAl+msDD4o9kRrBXJFZQ1xvdYwalKXDlVC8bRG1Ah2J/oKycvUI5+Z3NkGiIi2rtYZR1abZmRwpKPrNFSPv2pO8wHfTa/bW/K7FfymKKPUbtZUxtCPFrf/0Ka9hX26jdOUrgktUNeQrg1Qw7iJGLVywUvbjDc895AlYrDb8t7mR5hlUyFzuakBqB2sHfCVqELojw8rMDzr9rBrLHRcaiLQ3gmUPlw6UmlsYIo+2fBDpRerud0o3kqs94yJ6AfiFRqMV2Z4QXIXCIcVjBRWOuB0t6K4lHBqpJDAOXVQ8cpxKByXRN45bcBR6+ApI8ZA6P0d0jKLYu1coiqLXK1YoHmAoP9b+xQGPfh43VJunFVaMxS/FLiK7y6iZZSZEn6mjAya8y0geWyyOH6vNIXcNQ20s845YVVSthM9EQrPFWLtQPJCZ8x+z7LQSkTg9fM77C4lr+vIPYGxCYGiTaTu9wn8dQ/I68y64iyLCcO0V7sEb3zF8NhpWQd1p7zzMK6g4xf4B526GwG87MMC60o/YhKz3MiCb8NaIbPcW+H9hhQm2HXDAUjHCNsUALBUjXPNE2CBlyzUQy0/zMP3uFWgmdUQ82RQ3SJlyza77L0fBMocCDlKmbApbKxwss0TkbsjTES9vCN0NWTri9Q2xg5RjuQa5Gjq8OyLwsHvE2xBkU/Q73jsY4ImGoeaboTq+hgXStugsUeKliLchM4PXUoYZQmCGZoiPGZohPmZohvj4bUBl0OvBjij1nAJffvZkhvosGv4DMjNa45M9cp4AAAAASUVORK5CYII='"
+                 class="rounded-circle" alt="..." width="35px" height="35px" id="user-avatar"
+                 sec:authorize="hasRole('USER')">
+            <img th:src="${session.account_session.getTeacher().getAvatar() != null} ? ${session.account_session.getTeacher().getAvatar()} : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXFxcX////CwsL8/PzHx8fc3NzT09PJycn39/fMzMzs7Oz19fXZ2dnk5OTf39/v7+/o6OgDKYFyAAAE00lEQVR4nO2dx5qrMAxGQfTO+z/tjSFMGgnFEvrh6qxmMQvOZ1lyTxAYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhiEBET3/TT/+9Xw4nbRN2nCiS9okiIOLWFIQ122eR+Ebed4nxfmbkiiu+w+5P6IqKU7dkk4v/6p3l+xuLan9oTuhLFnSu0uW53SM23V+g2NfaH/uZihd7zc4Nufqj1SUm/wcea391Vuov6fPH5TZSZqRsn6Pn2vGVPvbV7G1Bz4T9dpfvwJKd0XoRA8fqJT6+A2K4I7bc+g7OXZp3JtjnomAFb1DdAS3L3ommRMo8rSgo9RWmSdmakFHjdiKWccnCDm6oXb5uzdQaft8wpVlJuCyDXHG6ABYVWSqhM+A5dN4/3ziKwlSnDKnmZE809Z6ImNOMyOtttYDaiQEwwqnEWWa8NYTtcUmKJERDDttsz/Ya+EdmJliJlAqRkCWUKmWEgw7kJIoFaQhytBNLkhBwlQwSCHCNA4CiRHbRBVrCzoqQcMQYq4vmGhuhgBhKtkNbx1Rf2wqbAgw+pY21E81KcdWxXfyRFuR/DebFtAOU3nD67ehGZqhGZqhGfqjXQ+DTGopcaTSX8ewkfcFDAvBhagwbLQTjeP6qxiyhvqrGJdfTRQ2LBEMRfbwJyC6YRDI7AA7QLby/4O9J7kwBQlSnpPBc8AciBYLU6BjUUJhChOkUo2IkmcGREZuEBvAd0QaEec0jYMEGhGnFw7wH/yCOnwZCBzey7WNPuCe6qM1IXuywZg2vcF56gRg+34OxnyKsHgxQ8ymCHkpyMGlCCvIVRXx0ugTHJsYHcIi8Feo9i6LPbSge27Asy8C98EJv3RzAkGvq5b5KQQ9BnAl+msDD4o9kRrBXJFZQ1xvdYwalKXDlVC8bRG1Ah2J/oKycvUI5+Z3NkGiIi2rtYZR1abZmRwpKPrNFSPv2pO8wHfTa/bW/K7FfymKKPUbtZUxtCPFrf/0Ka9hX26jdOUrgktUNeQrg1Qw7iJGLVywUvbjDc895AlYrDb8t7mR5hlUyFzuakBqB2sHfCVqELojw8rMDzr9rBrLHRcaiLQ3gmUPlw6UmlsYIo+2fBDpRerud0o3kqs94yJ6AfiFRqMV2Z4QXIXCIcVjBRWOuB0t6K4lHBqpJDAOXVQ8cpxKByXRN45bcBR6+ApI8ZA6P0d0jKLYu1coiqLXK1YoHmAoP9b+xQGPfh43VJunFVaMxS/FLiK7y6iZZSZEn6mjAya8y0geWyyOH6vNIXcNQ20s845YVVSthM9EQrPFWLtQPJCZ8x+z7LQSkTg9fM77C4lr+vIPYGxCYGiTaTu9wn8dQ/I68y64iyLCcO0V7sEb3zF8NhpWQd1p7zzMK6g4xf4B526GwG87MMC60o/YhKz3MiCb8NaIbPcW+H9hhQm2HXDAUjHCNsUALBUjXPNE2CBlyzUQy0/zMP3uFWgmdUQ82RQ3SJlyza77L0fBMocCDlKmbApbKxwss0TkbsjTES9vCN0NWTri9Q2xg5RjuQa5Gjq8OyLwsHvE2xBkU/Q73jsY4ImGoeaboTq+hgXStugsUeKliLchM4PXUoYZQmCGZoiPGZohPmZohvj4bUBl0OvBjij1nAJffvZkhvosGv4DMjNa45M9cp4AAAAASUVORK5CYII='"
+                 class="rounded-circle" alt="..." width="35px" height="35px" id="user-avatar"
+                 sec:authorize="hasRole('TEACHER')">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXFxcX////CwsL8/PzHx8fc3NzT09PJycn39/fMzMzs7Oz19fXZ2dnk5OTf39/v7+/o6OgDKYFyAAAE00lEQVR4nO2dx5qrMAxGQfTO+z/tjSFMGgnFEvrh6qxmMQvOZ1lyTxAYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhmEYhiEBET3/TT/+9Xw4nbRN2nCiS9okiIOLWFIQ122eR+Ebed4nxfmbkiiu+w+5P6IqKU7dkk4v/6p3l+xuLan9oTuhLFnSu0uW53SM23V+g2NfaH/uZihd7zc4Nufqj1SUm/wcea391Vuov6fPH5TZSZqRsn6Pn2vGVPvbV7G1Bz4T9dpfvwJKd0XoRA8fqJT6+A2K4I7bc+g7OXZp3JtjnomAFb1DdAS3L3ommRMo8rSgo9RWmSdmakFHjdiKWccnCDm6oXb5uzdQaft8wpVlJuCyDXHG6ABYVWSqhM+A5dN4/3ziKwlSnDKnmZE809Z6ImNOMyOtttYDaiQEwwqnEWWa8NYTtcUmKJERDDttsz/Ya+EdmJliJlAqRkCWUKmWEgw7kJIoFaQhytBNLkhBwlQwSCHCNA4CiRHbRBVrCzoqQcMQYq4vmGhuhgBhKtkNbx1Rf2wqbAgw+pY21E81KcdWxXfyRFuR/DebFtAOU3nD67ehGZqhGZqhGfqjXQ+DTGopcaTSX8ewkfcFDAvBhagwbLQTjeP6qxiyhvqrGJdfTRQ2LBEMRfbwJyC6YRDI7AA7QLby/4O9J7kwBQlSnpPBc8AciBYLU6BjUUJhChOkUo2IkmcGREZuEBvAd0QaEec0jYMEGhGnFw7wH/yCOnwZCBzey7WNPuCe6qM1IXuywZg2vcF56gRg+34OxnyKsHgxQ8ymCHkpyMGlCCvIVRXx0ugTHJsYHcIi8Feo9i6LPbSge27Asy8C98EJv3RzAkGvq5b5KQQ9BnAl+msDD4o9kRrBXJFZQ1xvdYwalKXDlVC8bRG1Ah2J/oKycvUI5+Z3NkGiIi2rtYZR1abZmRwpKPrNFSPv2pO8wHfTa/bW/K7FfymKKPUbtZUxtCPFrf/0Ka9hX26jdOUrgktUNeQrg1Qw7iJGLVywUvbjDc895AlYrDb8t7mR5hlUyFzuakBqB2sHfCVqELojw8rMDzr9rBrLHRcaiLQ3gmUPlw6UmlsYIo+2fBDpRerud0o3kqs94yJ6AfiFRqMV2Z4QXIXCIcVjBRWOuB0t6K4lHBqpJDAOXVQ8cpxKByXRN45bcBR6+ApI8ZA6P0d0jKLYu1coiqLXK1YoHmAoP9b+xQGPfh43VJunFVaMxS/FLiK7y6iZZSZEn6mjAya8y0geWyyOH6vNIXcNQ20s845YVVSthM9EQrPFWLtQPJCZ8x+z7LQSkTg9fM77C4lr+vIPYGxCYGiTaTu9wn8dQ/I68y64iyLCcO0V7sEb3zF8NhpWQd1p7zzMK6g4xf4B526GwG87MMC60o/YhKz3MiCb8NaIbPcW+H9hhQm2HXDAUjHCNsUALBUjXPNE2CBlyzUQy0/zMP3uFWgmdUQ82RQ3SJlyza77L0fBMocCDlKmbApbKxwss0TkbsjTES9vCN0NWTri9Q2xg5RjuQa5Gjq8OyLwsHvE2xBkU/Q73jsY4ImGoeaboTq+hgXStugsUeKliLchM4PXUoYZQmCGZoiPGZohPmZohvj4bUBl0OvBjij1nAJffvZkhvosGv4DMjNa45M9cp4AAAAASUVORK5CYII="
+                 class="rounded-circle" alt="..." width="35px" height="35px" id="user-avatar"
+                 sec:authorize="hasRole('ADMIN')">
             <div class="dropdown ms-2">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                   aria-expanded="false" style="width: 150px; font-size: 14px; color: #3b3b3b" sec:authorize="hasRole('USER')" th:text="${session.account_session.getStudent().getNameStudent()}">
+                   aria-expanded="false" style="width: 150px; font-size: 14px; color: #3b3b3b"
+                   sec:authorize="hasRole('USER')" th:text="${session.account_session.getStudent().getNameStudent()}">
                 </a>
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                   aria-expanded="false" style="width: 150px; font-size: 14px; color: #3b3b3b" sec:authorize="hasRole('TEACHER')" th:text="${session.account_session.getTeacher().getNameTeacher()}">
+                   aria-expanded="false" style="width: 150px; font-size: 14px; color: #3b3b3b"
+                   sec:authorize="hasRole('TEACHER')"
+                   th:text="${session.account_session.getTeacher().getNameTeacher()}">
                 </a>
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                   aria-expanded="false" style="width: 150px; font-size: 14px; color: #3b3b3b" sec:authorize="hasRole('ADMIN')" th:text="ADMIN">
+                   aria-expanded="false" style="width: 150px; font-size: 14px; color: #3b3b3b"
+                   sec:authorize="hasRole('ADMIN')" th:text="ADMIN">
                 </a>
 
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="font-size: 14px; width: fit-content">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                    style="font-size: 14px; width: fit-content">
                     <li><a class="dropdown-item" href="#">Personal Information</a></li>
-                    <li><a class="dropdown-item" href="#">Change Your Password</a></li>
+                    <li><button id="btn-change-password" type="button" class="btn btn-primary dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-change-password">
+                        Change Your Password </button>
+                    </li>
                     <li><a class="dropdown-item" th:href="@{/logout}" href="#">Logout</a></li>
                 </ul>
             </div>
         </div>
 
     </header>
+
+    <!--  Modal change password  -->
+    <div class="modal fade" id="modal-change-password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Your Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form-change-password">
+                    <div class="modal-body">
+                        <div class="mb-3" id="messenger" style="display: none">
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <div>
+                                    Passwords are not duplicates.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password: </label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password-repeat" class="form-label">Verify Password: </label>
+                            <input type="password" class="form-control" id="password-repeat" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- Jquery-->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        document.getElementById("form-change-password").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Kiểm tra xem password có đúng không
+            if (checkPasswordVerify()) {
+                handleChangePassword();
+            } else {
+                return false;
+            }
+        });
+        function handleChangePassword() {
+            // Lấy thông tin từ session
+            const sessionAccount = [[${session.account_session}]];
+
+            const url = "/account/change-password/" + sessionAccount.id + "?newPassword=" + $('#password').val();
+            $.ajax({
+                header: {
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8; multipart/form-data'
+                },
+                type: "PUT",
+                contentType: false,
+                processData: false,
+                enctype: 'multipart/form-data',
+                url: url,
+                success: function (response) {
+                    alert("success", "Changed password successfully!");
+                    $('#modal-change-password').modal('hide');
+                    $('#form-change-password').get(0).reset();
+                },
+                error: function (xhr, status, error) {
+                    console.log(error + ": " + status + ": " + xhr.responseText);
+                    alert("danger", "Changed password failed!");
+                }
+            });
+        }
+
+        // Hàm kiểm tra mật khẩu xem có khớp không
+        function checkPasswordVerify() {
+            const newPassword = $('#password').val();
+            const verifyPassword = $('#password-repeat').val();
+
+            if (newPassword != verifyPassword) {
+                $('#messenger').show();
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+    </script>
 </div>
+
 </body>
 </html>

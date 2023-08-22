@@ -4,6 +4,10 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.dtfh-floatingparent{
+    top: -7px !important;
+}
+
 .notification {
     position: fixed;
     top: 20px;
