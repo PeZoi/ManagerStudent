@@ -55,6 +55,21 @@ public class StudentRest {
         }
     }
 
+    @PostMapping("/save-te")
+    @Transactional
+    public ResponseEntity<?> saveTE(@RequestParam("studentObject") String studentJson, @RequestParam("idClass") int idClass) {
+        try {
+            StudentDTO studentDTO = studentService.saveStudentTE(studentJson, idClass);
+            // Nếu gặp lỗi gì mà không lưu được thì sẽ trả về luôn
+            if (studentDTO == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(studentDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PutMapping("/update/{idStudent}")
     @Transactional
     public ResponseEntity<?> update(@PathVariable(name = "idStudent") int idStudent, @RequestParam("studentObject") String studentJson,

@@ -40,10 +40,10 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
             if (authority.getAuthority().equals("ROLE_USER")) {
                 response.sendRedirect("/student-information/" + accountOptional.get().getStudent().getIdStudent());
                 return;
-            } else if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                response.sendRedirect("/school");
-                return;
             } else if (authority.getAuthority().equals("ROLE_TEACHER")) {
+                response.sendRedirect("/teacher-information/" + accountOptional.get().getTeacher().getIdTeacher());
+                return;
+            }else if (authority.getAuthority().equals("ROLE_ADMIN")) {
                 response.sendRedirect("/school");
                 return;
             }

@@ -1,21 +1,14 @@
 package com.example.projectfinal.controller;
 
 import com.example.projectfinal.entity.Account;
-import com.example.projectfinal.repository.AccountRepository;
-import com.example.projectfinal.repository.ReportCardRepository;
+import com.example.projectfinal.entity.Class;
 import com.example.projectfinal.service.*;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -40,20 +33,20 @@ public class MainController {
     @GetMapping("/school")
     public String schoolPage(Model model) {
         model.addAttribute("listSchool", schoolService.getAllSchools());
-        return "school";
+        return "admin/school";
     }
 
     @GetMapping("/class")
     public String classPage(Model model) {
         model.addAttribute("listClass", classService.getAllClasses());
         model.addAttribute("listSchool", schoolService.getAllSchools());
-        return "class";
+        return "admin/class";
     }
 
     @GetMapping("/subject")
     public String subjectPage(Model model) {
         model.addAttribute("listSubject", subjectService.getAllSubjects());
-        return "subject";
+        return "admin/subject";
     }
 
     @GetMapping("/teacher")
@@ -61,7 +54,7 @@ public class MainController {
         model.addAttribute("listTeacher", teacherService.getAllTeacher());
         model.addAttribute("listSchool", schoolService.getAllSchools());
         model.addAttribute("listSubject", subjectService.getAllSubjects());
-        return "teacher";
+        return "admin/teacher";
     }
 
     @GetMapping("/student")
@@ -69,13 +62,33 @@ public class MainController {
         model.addAttribute("listTeacher", teacherService.getAllTeacher());
         model.addAttribute("listSchool", schoolService.getAllSchools());
         model.addAttribute("listStudent", studentService.getAllStudents());
-        return "student";
+        return "admin/student";
     }
 
     @GetMapping("/student-information/{idStudent}")
-    public String studentInformationPage(Model model, @PathVariable("idStudent") int idStudent, HttpServletRequest request) {
+    public String studentInformationPage(Model model, @PathVariable("idStudent") int idStudent) {
             model.addAttribute("student", studentService.getStudent(idStudent));
             model.addAttribute("reportCards", reportCardService.getReportCardByIdStudent(idStudent));
             return "student-information";
+    }
+
+    @GetMapping("/teacher-information/{idTeacher}")
+    public String teacherInformationPage(Model model, @PathVariable("idTeacher") int idTeacher) {
+        model.addAttribute("teacher", teacherService.getTeacher(idTeacher));
+        return "teacher/teacher-information";
+    }
+
+    @GetMapping("/student-te")
+    public String studentTEPage(Model model, HttpSession session) {
+        try{
+            Account sessionObject = (Account) session.getAttribute("account_session");
+            // Lấy id class ra
+            Class classs = sessionObject.getTeacher().getClasss();
+            // Gọi học sinh đang học lớp có id class này
+            model.addAttribute("listStudent", studentService.getAllStudentsByClass(classs));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "teacher/student-te";
     }
 }

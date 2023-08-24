@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+        :root {
+            --header-height: 3rem;
+            --nav-width: 68px;
+            --first-color: #4723d9;
+            --first-color-light: #afa5d9;
+            --white-color: #f7f6fb;
+            --body-font: "Nunito", sans-serif;
+            --normal-font-size: 1rem;
+            --z-fixed: 100;
+        }
+
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            position: relative;
+            margin: var(--header-height) 0 0 0;
+            padding: 0 1rem;
+            font-family: var(--body-font);
+            font-size: var(--normal-font-size);
+            transition: 0.5s;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .header {
+            width: 100%;
+            height: var(--header-height);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            background-color: var(--white-color);
+            z-index: var(--z-fixed);
+            transition: 0.5s;
+        }
+
+        .header_toggle {
+            color: var(--first-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .header_img {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .header_img img {
+            width: 40px;
+        }
+
+        .l-navbar {
+            position: fixed;
+            top: 0;
+            left: -30%;
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--first-color);
+            padding: 0.5rem 1rem 0 0;
+            transition: 0.5s;
+            z-index: var(--z-fixed);
+        }
+
+        .nav {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .nav_logo,
+        .nav_link {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            align-items: center;
+            column-gap: 1rem;
+            padding: 0.5rem 0 0.5rem 1.5rem;
+        }
+
+        .nav_logo {
+            margin-bottom: 2rem;
+        }
+
+        .nav_logo-icon {
+            font-size: 1.25rem;
+            color: var(--white-color);
+        }
+
+        .nav_logo-name {
+            color: var(--white-color);
+            font-weight: 700;
+        }
+
+        .nav_link {
+            position: relative;
+            color: var(--first-color-light);
+            margin-bottom: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .nav_link:hover {
+            color: var(--white-color);
+        }
+
+        .nav_icon {
+            font-size: 1.25rem;
+        }
+
+        .show {
+            left: 0;
+        }
+
+        .body-pd {
+            padding-left: calc(var(--nav-width) + 1rem);
+        }
+
+        .active {
+            color: var(--white-color);
+        }
+
+        .active::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 2px;
+            height: 32px;
+            background-color: var(--white-color);
+        }
+
+        .height-100 {
+            height: 100vh;
+        }
+
+        @media screen and (min-width: 768px) {
+            body {
+                margin: calc(var(--header-height) + 1rem) 0 0 0;
+                padding-left: calc(var(--nav-width) + 2rem);
+            }
+
+            .header {
+                height: calc(var(--header-height) + 1rem);
+                padding: 0 2rem 0 calc(var(--nav-width) + 2rem);
+            }
+
+            .header_img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .header_img img {
+                width: 45px;
+            }
+
+            .l-navbar {
+                left: 0;
+                padding: 1rem 1rem 0 0;
+            }
+
+            .show {
+                width: calc(var(--nav-width) + 156px);
+            }
+
+            .body-pd {
+                padding-left: calc(var(--nav-width) + 188px);
+            }
+        }
+
+        .modal-backdrop {
+            width: 100%;
+        }
+
+        tr {
+            text-align: center;
+        }
+
+        tr td img {
+            width: 80px;
+            height: 50px;
+            object-fit: cover;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+
+<body id="body-pd">
+<!-- Loading -->
+<div id="loading" style="display: none;">
+    <img th:src="@{/img/loading.gif}" alt="Loading...">
+</div>
+
+<!-- Header -->
+<div th:include="header :: header"></div>
+<!-- End Header-->
+
+<!-- Nav bar -->
+<div th:include="nav-bar :: nav-bar"></div>
+<!-- End Nav bar -->
+
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="width: 100%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-add" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div id="modal-left" class="col-md-4">
+                            <div class="mb-3">
+                                <label for="nameStudent" class="form-label">Student name <span
+                                        class="text-danger">(*)</span></label>
+                                <input type="text" class="form-control" name="nameStudent" id="nameStudent"
+                                       placeholder="Nhập tên học sinh" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email <span
+                                        class="text-danger">(*)</span></label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                       placeholder="Nhập email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dateOfBirth" class="form-label">Date of birth <span
+                                        class="text-danger">(*)</span></label>
+                                <input type="date" class="form-control" name="dateOfBirth" id="dateOfBirth"
+                                       placeholder="Nhập ngày sinh" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address <span
+                                        class="text-danger">(*)</span></label>
+                                <input type="text" class="form-control" name="address" id="address"
+                                       placeholder="Nhập địa chỉ" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label">Phone number <span
+                                        class="text-danger">(*)</span></label>
+                                <input type="text" class="form-control" name="phoneNumber" id="phoneNumber"
+                                       placeholder="Nhập số điện thoại" required>
+                            </div>
+                            <input name="idClass" id="idClass" th:value="${session.account_session.getTeacher().getClasss().getIdClass()}" hidden="hidden">
+                        </div>
+
+                        <div id="modal-middle" class="col-md-4">
+                            <div class="mb-3">
+                                <label for="class" class="form-label">Class: </label>
+                                <select class="form-select" name="class" id="class">
+
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="avatar" class="form-label">Avatar: </label>
+                                <input class="form-control" type="file" name="avatar" id="avatar" accept="image/*"
+                                       onchange="validateFileSize()">
+                            </div>
+                        </div>
+
+                        <div id="modal-right" class="col-md-4">
+                            <input hidden="hidden" name="idParent" id="idParent">
+                            <div class="mb-3">
+                                <label for="nameParent" class="form-label">Parent name: </label>
+                                <input type="text" class="form-control" name="nameParent" id="nameParent"
+                                       placeholder="Nhập tên phụ huynh">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phoneNumberParent" class="form-label">Phone number (Parent): </label>
+                                <input type="text" class="form-control" name="phoneNumberParent" id="phoneNumberParent"
+                                       placeholder="Nhập số điện thoại phụ huynh">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="submit-add" type="submit" class="btn btn-primary">Add</button>
+                        <button id="submit-update" type="submit" class="btn btn-primary">Save
+                            changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Class -->
+
+<!-- Model confirm-->
+<div class="modal fade" tabindex="-1" id="model-confirm" style="width: 100%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Do you want to delete <span id="modal-confirm-id"
+                                                                    class="badge bg-primary"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="button-delete-confirm" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End model confirm-->
+
+<!-- Main component-->
+<div class="container" style="margin-top: 100px; margin-bottom: 100px">
+    <!-- Button trigger modal -->
+    <div class="d-flex justify-content-between">
+        <button id="button-add" type="button" class="btn btn-success mb-3 mr-3">
+            Add
+        </button>
+        <div>
+            <button id="button-view" class="btn btn-success mb-3 ml-3" disabled>
+                View Detail
+            </button>
+            <button id="button-delete" class="btn btn-danger mb-3 ml-3" disabled>
+                Delete
+            </button>
+            <button id="button-update" class="btn btn-primary mb-3 ml-3" disabled>
+                Update
+            </button>
+        </div>
+    </div>
+    <table id="table-list" class="table table-striped" style="width:100%">
+        <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Student name</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Date of birth</th>
+            <th class="text-center">Address</th>
+            <th class="text-center">Phone number</th>
+            <th class="text-center">Avatar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${listStudent}" style="text-align: center">
+            <td th:text="${student.getIdStudent()}"></td>
+            <td th:text="${student.getNameStudent()}"></td>
+            <td th:text="${student.getEmail()}"></td>
+            <td th:text="${student.getDateOfBirth()}"></td>
+            <td th:text="${student.getAddress()}"></td>
+            <td th:text="${student.getPhoneNumber()}"></td>
+            <td><img
+                    th:src="${student.getAvatar() != null} ? ${student.getAvatar()} : 'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg'"
+                    width="80px" alt="avatar"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- End Main component-->
+
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+<!--Slide bar-->
+<script type="text/javascript" th:src="@{/js/slide-bar.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#nav-student').addClass('active');
+    })
+</script>
+<!--Table-->
+<script type="text/javascript">
+    // Create table
+    const table = $('#table-list').DataTable({
+        fixedHeader: true,
+        autoFill: true
+    });
+
+    table.on('click', 'tbody tr', (e) => {
+        let classList = e.currentTarget.classList;
+
+        if (classList.contains('selected')) {
+            classList.remove('selected');
+            $('#button-delete').attr('disabled', 'disabled');
+            $('#button-update').attr('disabled', 'disabled');
+            $('#button-view').attr('disabled', 'disabled');
+        } else {
+            table.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+            classList.add('selected');
+            $('#button-delete').removeAttr('disabled');
+            $('#button-update').removeAttr('disabled');
+            $('#button-view').removeAttr('disabled');
+        }
+    })
+
+    // add school
+    function add(formData) {
+        // loading
+        $('#loading').show();
+
+        let studentObject = {
+            nameStudent: formData.get("nameStudent"),
+            email: formData.get("email"),
+            dateOfBirth: formData.get("dateOfBirth"),
+            address: formData.get("address"),
+            phoneNumber: formData.get("phoneNumber")
+        };
+
+        formData.append("studentObject", JSON.stringify(studentObject));
+
+        $.ajax({
+            header: {
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8; multipart/form-data'
+            },
+            type: "POST",
+            contentType: false,
+            processData: false,
+            enctype: 'multipart/form-data',
+            url: "/student/api/save-te",
+            data: formData,
+            success: function (response) {
+                // Thêm dòng mới vào bảng
+                table.row.add([
+                    response.idStudent,
+                    response.nameStudent,
+                    response.email,
+                    response.dateOfBirth,
+                    response.address,
+                    response.phoneNumber,
+                    "<img src=\"" + (response.avatar == null ? 'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg' : response.avatar) + "\" width=\"80px\" alt=\"avatar\">"
+                ]).draw(false);
+
+                $('#loading').hide();
+                alert("success", "Additional successfully!");
+            },
+            error: function (xhr, status, error) {
+                console.log(error + ": " + status);
+                alert("danger", "Additional failed");
+                $('#loading').hide();
+            }
+        });
+
+        // Close modal
+        $("#modal").modal('hide');
+        $("#form-add").get(0).reset();
+    }
+
+    document.querySelector('#button-add').addEventListener('click', function () {
+        let modal = $('#modal');
+        let formAdd = $('#form-add');
+        // xử lý phần hiện modal
+        modal.modal('show');
+        $('#modal-title').text('Add Student');
+        $('#submit-update').hide();
+        $('#submit-add').show();
+
+        // Xử lý bố cục bên trong modal
+        $('#modal-middle').hide();
+        $('#modal-right').hide();
+        $('#modal-left').removeClass('col-md-4');
+        $('.modal-content').css('width', 'auto');
+
+        // Xoá value input đi
+        formAdd.get(0).reset();
+    });
+
+    // delete school
+    function remove(idStudent) {
+        const url = '/student/api/delete/' + idStudent;
+        $.ajax({
+            headers: {
+                "Content-Type": "application/json"
+            },
+            type: "DELETE",
+            url: url,
+            success: function (response) {
+                alert("success", " Deleted successfully!");
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(xhr.status + ': ' + errorThrown);
+                alert("danger", "❌ Deleted failed!");
+            }
+        });
+    }
+
+    document.querySelector('#button-delete').addEventListener('click', function () {
+        const studentArr = table.row('.selected').data();
+        const studentObject = Object.assign({}, studentArr);
+
+        // Hiện modal confirm
+        $('#model-confirm').modal('show');
+        $('#modal-confirm-id').text(studentObject[0]);
+        $('#button-delete-confirm').on("click", function () {
+            // Xoá subject (lấy id của nó ra)
+            remove(studentObject[0]);
+            table.row('.selected').remove().draw(false);
+            // Tắt các nút update và delete đi
+            $('#button-delete').attr('disabled', 'disabled');
+            $('#button-update').attr('disabled', 'disabled');
+            $('#button-view').attr('disabled', 'disabled');
+            $('#model-confirm').modal('hide');
+        })
+    });
+
+    // update school
+    function update(formData) {
+
+        $('#loading').show();
+
+        const idStudent = $('#modal-id').text();
+
+        let studentObject = {
+            idStudent: idStudent,
+            nameStudent: formData.get("nameStudent"),
+            dateOfBirth: formData.get("dateOfBirth"),
+            phoneNumber: formData.get("phoneNumber"),
+            address: formData.get("address"),
+            email: formData.get("email")
+        };
+
+        let parentObject = {
+            idParent: formData.get("idParent"),
+            nameParent: formData.get("nameParent"),
+            phoneNumber: formData.get("phoneNumberParent")
+        }
+
+        formData.append("studentObject", JSON.stringify(studentObject));
+        formData.append("parentObject", JSON.stringify(parentObject));
+
+        // Lấy dòng mà chuẩn bị update
+        const element = table.row('.selected').nodes()[0];
+
+        const url = "/student/api/update/" + idStudent;
+
+        $.ajax({
+            header: {
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8; multipart/form-data'
+            },
+            type: "PUT",
+            contentType: false,
+            processData: false,
+            enctype: 'multipart/form-data',
+            url: url,
+            data: formData,
+            success: function (response) {
+                // Thay đổi dòng trong table (update lại dữ liệu)
+                jQuery(element).find("td:eq(1)").text(response.nameStudent);
+                jQuery(element).find("td:eq(2)").text(response.email);
+                jQuery(element).find("td:eq(3)").text(response.dateOfBirth);
+                jQuery(element).find("td:eq(4)").text(response.address);
+                jQuery(element).find("td:eq(5)").text(response.phoneNumber);
+                jQuery(element).find("td:eq(7)").html("<img src=\"" + (response.avatar == null ? 'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg' : response.avatar) + "\" width=\"80px\" alt=\"avatar\">");
+
+                alert("success", "Updated successfully!");
+                $('#loading').hide();
+            },
+            error: function (xhr, status, error) {
+                console.log(error + ": " + status + ": " + xhr.responseText);
+                alert("danger", "Updated failed!");
+                $('#loading').hide();
+            }
+        });
+
+        // Close modal
+        $("#modal").modal('hide');
+        $("#form-add").get(0).reset();
+    }
+
+    document.querySelector('#button-update').addEventListener('click', function () {
+        // xử lý phần hiện modal
+        $('#modal').modal('show');
+        $('#modal-title').html('Update Student' + "<span id=\"modal-id\" class=\"badge bg-primary ms-3\"></span>");
+        $('#submit-add').hide();
+        $('#submit-update').show();
+
+        // Xử lý bố cục bên trong modal
+        $('#modal-middle').show();
+        $('#modal-right').show();
+        $('#modal-left').addClass('col-md-4');
+        $('.modal-content').css('width', 'max-content');
+
+        // data cần update
+        const idStudent = table.row('.selected').data()[0];
+        $('#modal-id').text(idStudent);
+
+        // Lấy data trong csdl
+        const url = "/student/api/" + idStudent;
+        $.ajax({
+            header: {
+                contentType: 'application/json;charset=UTF-8'
+            },
+            type: "GET",
+            contentType: "application/json",
+            url: url,
+            success: function (response) {
+                // đẩy data vào các ô input
+                $('#nameStudent').val(response.nameStudent);
+                $('#email').val(response.email);
+                $('#dateOfBirth').val(response.dateOfBirth);
+                $('#address').val(response.address);
+                $('#phoneNumber').val(response.phoneNumber);
+
+                // đẩy data vào parent
+                if (response.parent != null) {
+                    $('#idParent').val(response.parent.idParent);
+                    $('#nameParent').val(response.parent.nameParent);
+                    $('#phoneNumberParent').val(response.parent.phoneNumber);
+                }
+
+                // Đẩy data vào class và school
+                $('#class').empty();
+                $('#class').append("<option value=\'" + response.classs.idClass + "\'>" + response.classs.nameClass + "</option>");
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(xhr.status + ': ' + errorThrown + ' ' + xhr.responseText);
+            }
+        });
+    });
+
+    $("#form-add").submit(function (event) {
+        event.preventDefault();
+        if ($("#submit-add").is(":visible")) {
+            // Lấy data từ form
+            let formData = new FormData(this);
+            add(formData);
+        } else {
+            // Lấy data từ form
+            let formData = new FormData(this);
+            update(formData);
+        }
+    });
+
+    // // Hàm này lấy thông tin school theo idClass
+    // function getSchool(idClass) {
+    //     $.ajax({
+    //         header: {
+    //             contentType: 'application/json;charset=UTF-8'
+    //         },
+    //         type: "GET",
+    //         contentType: "application/json",
+    //         url: "/class/api/" + idClass,
+    //         success: function (response) {
+    //             // Lấy thông tin ra
+    //             $('#school').val(response.school.idSchool);
+    //             getClasses(response.school.idSchool, idClass);
+    //         },
+    //         error: function (xhr, textStatus, errorThrown) {
+    //             console.log(xhr.status + ': ' + errorThrown + ' ' + xhr.responseText);
+    //         }
+    //     });
+    //
+    // }
+    //
+    // // Hàm này lấy thông tin class theo idSchool hoặc gán selected cho class theo idClass
+    // function getClasses(e, idClass) {
+    //     let idSchool = e;
+    //     // Nếu nó là 1 thẻ html thì gán lại (e 1 là HTML, 2 là number nên phải check)
+    //     if (typeof e === 'object') {
+    //         idSchool = e.value;
+    //     }
+    //
+    //     // Reset select class (chưa có gì)
+    //     $('#class').empty();
+    //     $('#class').append("<option selected value='-1'>No classes</option>");
+    //
+    //     // Nếu như school mà nó chọn lại default thì xoá hết tất cả dữ liệu class đi
+    //     if (idSchool === "-1") {
+    //         return;
+    //     }
+    //     $.ajax({
+    //         header: {
+    //             contentType: 'application/json;charset=UTF-8'
+    //         },
+    //         type: "GET",
+    //         contentType: "application/json",
+    //         url: "/school/api/" + idSchool,
+    //         success: function (response) {
+    //             // Lấy thông tin ra
+    //             response.classes.forEach(function (classs) {
+    //                 $('#class').append("<option value=\'" + classs.idClass + "\'>" + classs.nameClass + "</option>");
+    //             })
+    //
+    //             // Nếu có idClass != null thì selected cái option class đó
+    //             if (idClass != undefined) {
+    //                 $('#class').val(idClass);
+    //             }
+    //         },
+    //         error: function (xhr, textStatus, errorThrown) {
+    //             console.log(xhr.status + ': ' + errorThrown + ' ' + xhr.responseText);
+    //         }
+    //     });
+    // }
+
+    // View (xem chi tiết student)
+    document.querySelector('#button-view').addEventListener('click', function () {
+        // data cần update
+        const idStudent = table.row('.selected').data()[0];
+        const classStudent = table.row('.selected').data()[6];
+        // Lấy data trong csdl
+        window.location.href = "http://localhost:8080/student-information/" + idStudent;
+    });
+
+
+</script>
+</body>
+
+</html>

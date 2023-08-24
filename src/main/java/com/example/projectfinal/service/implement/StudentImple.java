@@ -143,6 +143,82 @@ public class StudentImple implements StudentService {
         }
     }
 
+    // Method này giống save ở chức năng ở trên nhưng giành cho giáo viên save
+    // Khác chỗ là student này sẽ có class luôn còn ở trên thì không có class
+    @Override
+    @Transactional
+    public StudentDTO saveStudentTE(String student, int idClass) {
+        try {
+            // Chuyển student (JSON) về dạng object java
+            Student student_old = objectMapper.readValue(student, Student.class);
+
+            // Thêm class vào student
+            Optional<Class> classOptional = classRepository.findById(idClass);
+            student_old.setClasss(classOptional.get());
+
+            // Lưu object đó xuống database
+            Student student_new = studentRepository.save(student_old);
+
+            // Rồi chuyển object đó thành object DTO để làm thành json đẩy lên client
+            StudentDTO studentDTO = modelMapper.map(student_new, StudentDTO.class);
+
+            // Vì Student mặc định lúc nào cũng phải có tất cả các bảng điểm của các môn
+            List<Subject> subjects = subjectRepository.findAll();
+            for (Subject subject : subjects) {
+                ReportCard reportCard = new ReportCard();
+                reportCard.setStudent(student_new);
+                reportCard.setSubject(subject);
+                ReportCard reportCardSave = reportCardRepository.save(reportCard);
+                // Khi có report card rồi thì phải có điểm mặc định
+                for (int i = 1; i <= 6; i++) {
+                    ReportCardDetail reportCardDetail = new ReportCardDetail();
+                    if (i == 1) {
+                        reportCardDetail.setNameReport("15");
+                        reportCardDetail.setSemester("HK1");
+                    } else if (i == 2) {
+                        reportCardDetail.setNameReport("45");
+                        reportCardDetail.setSemester("HK1");
+                    } else if (i == 3) {
+                        reportCardDetail.setNameReport("Final");
+                        reportCardDetail.setSemester("HK1");
+                    } else if (i == 4) {
+                        reportCardDetail.setNameReport("15");
+                        reportCardDetail.setSemester("HK2");
+                    } else if (i == 5) {
+                        reportCardDetail.setNameReport("45");
+                        reportCardDetail.setSemester("HK2");
+                    } else {
+                        reportCardDetail.setNameReport("Final");
+                        reportCardDetail.setSemester("HK2");
+                    }
+                    reportCardDetail.setReportCard(reportCardSave);
+                    reportCardDetailRepository.save(reportCardDetail);
+                }
+            }
+
+            // Tạo biến để mã hoá mật khẩu
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+            // Thêm account cho student
+            List<Role> roles = new ArrayList<>();
+            Role role = new Role(2, "ROLE_USER");
+            roles.add(role);
+            Account account = new Account();
+            account.setId(0L);
+            account.setUsername("ST" + String.valueOf(studentDTO.getIdStudent()));
+            account.setPassword(bCryptPasswordEncoder.encode("123456"));
+            account.setRoles(roles);
+            account.setStudent(student_new);
+            account.setEnable(true);
+
+            accountRepository.save(account);
+
+            return studentDTO;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Override
     @Transactional
     public StudentDTO updateStudent(String student, String parent, String idClass, MultipartFile avatar) {
@@ -206,5 +282,16 @@ public class StudentImple implements StudentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<StudentDTO> getAllStudentsByClass(Class classs) {
+        List<Student> students = studentRepository.findStudentsByClasss(classs);
+        List<StudentDTO> studentDTOs = new ArrayList<>();
+        for (Student student : students) {
+            StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
+            studentDTOs.add(studentDTO);
+        }
+        return studentDTOs;
     }
 }

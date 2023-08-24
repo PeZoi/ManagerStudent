@@ -16,6 +16,9 @@ public interface StudentService {
     public StudentDTO getNewStudent();
     public List<StudentDTO> getAllStudents();
     public StudentDTO saveStudent(String student);
+    public StudentDTO saveStudentTE(String student, int idClass);
     public StudentDTO updateStudent(String student, String parent, String idClass, MultipartFile avatar);
     public void deleteStudent(int idStudent);
+
+    public List<StudentDTO> getAllStudentsByClass(Class classs);
 }

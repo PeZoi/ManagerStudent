@@ -279,10 +279,10 @@
             <div class="card">
                 <div class="card-header bold">PARENT INFORMATION</div>
                 <div class="card-body" style="font-size: 14px">
-                    <label class="mb-2">Full name: <span class="bold" th:text="${student.getParent().getNameParent()}">Phạm Văn Được</span></label>
+                    <label class="mb-2">Full name: <span class="bold" th:text="${student.parent?.nameParent} ?: ''"></span></label>
                     <br>
                     <label>Phone number: <span class="bold"
-                                               th:text="${student.getParent().getPhoneNumber()}">0813535314</span></label>
+                                               th:text="${student.parent?.phoneNumber} ?: ''"></span></label>
                     <br>
                 </div>
             </div>

@@ -12,23 +12,27 @@
         <nav class="nav">
             <div>
                 <div class="nav_list">
-                    <a href="#" th:href="@{/school}" class="nav_link" id="nav-school">
+                    <a href="#" th:href="@{/school}" class="nav_link" id="nav-school" sec:authorize="hasRole('ADMIN')">
                         <img src="https://img.icons8.com/?size=512&id=RWH5eUW9Vr7f&format=png" width="32px">
                         <span class="nav_name">Table School</span>
                     </a>
-                    <a href="#" th:href="@{/class}" class="nav_link"  id="nav-class">
+                    <a href="#" th:href="@{/class}" class="nav_link"  id="nav-class" sec:authorize="hasRole('ADMIN')">
                         <img src="https://img.icons8.com/?size=512&id=lfsImOry3hBk&format=png" width="29px">
                         <span class="nav_name">Table Class</span>
                     </a>
-                    <a href="#" th:href="@{/student}" class="nav_link"  id="nav-student">
+                    <a href="#" th:href="@{/student}" class="nav_link"  id="nav-student" sec:authorize="hasRole('ADMIN')">
                         <img src="https://img.icons8.com/?size=512&id=XKedzxVhRNPR&format=png" width="29px">
                         <span class="nav_name">Table Student</span>
                     </a>
-                    <a href="#" th:href="@{/teacher}" class="nav_link"  id="nav-teacher">
+                    <a href="#" th:href="@{/student-te}" class="nav_link"  id="nav-studentTE" sec:authorize="hasAnyRole('TEACHER')">
+                        <img src="https://img.icons8.com/?size=512&id=XKedzxVhRNPR&format=png" width="29px" >
+                        <span class="nav_name">Table Student</span>
+                    </a>
+                    <a href="#" th:href="@{/teacher}" class="nav_link"  id="nav-teacher" sec:authorize="hasRole('ADMIN')">
                         <img src="https://img.icons8.com/?size=512&id=mBzT9ySeO_go&format=png" width="29px">
                         <span class="nav_name">Table Teacher</span>
                     </a>
-                    <a href="#" th:href="@{/subject}" class="nav_link"  id="nav-subject">
+                    <a href="#" th:href="@{/subject}" class="nav_link"  id="nav-subject" sec:authorize="hasRole('ADMIN')">
                         <img src="https://img.icons8.com/?size=512&id=16369&format=png" width="29px">
                         <span class="nav_name">Table Subject</span>
                     </a>
