@@ -52,10 +52,22 @@ public class SecurityConfig {
                 configurer -> configurer.requestMatchers("/css/**").permitAll()
                         .requestMatchers("/img/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/student-information/**").hasAnyRole("ADMIN", "TEACHER", "USER")
-                        .requestMatchers("/account/change-password/**").hasAnyRole("ADMIN", "TEACHER", "USER")
                         .requestMatchers("/error/**").permitAll()
-                        .anyRequest().hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/account/change-password/**").hasAnyRole("ADMIN", "TEACHER", "USER")
+                        .requestMatchers("/student/home/**").hasAnyRole("USER")
+                        .requestMatchers("/teacher/home/**").hasAnyRole("TEACHER")
+                        .requestMatchers("/student-information/{idStudent}").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/teacher-information/{idTeacher}").hasAnyRole("TEACHER")
+                        .requestMatchers("/student-te/**").hasRole("TEACHER")
+                        .requestMatchers("/student/**").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/parent/**").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/report-card-detail/**").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/report-card/**").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/class/**").hasRole("ADMIN")
+                        .requestMatchers("/school/**").hasRole("ADMIN")
+                        .requestMatchers("/subject/**").hasRole("ADMIN")
+                        .requestMatchers("/teacher/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
         ).formLogin(
                 // Custom trang login (showLoginPage là 1 endpoint trong controller)
                 form -> form.loginPage("/login")
@@ -65,9 +77,6 @@ public class SecurityConfig {
         ).logout(
                 // Ai cũng có thể đăng xuất được (logout -> logout.permitAll())
                 LogoutConfigurer::permitAll
-        ).exceptionHandling(
-                // Lỗi 403
-                configurer -> configurer.accessDeniedPage("/error/showPage403")
         );
         http.httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);

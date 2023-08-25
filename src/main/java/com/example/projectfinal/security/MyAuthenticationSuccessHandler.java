@@ -38,10 +38,10 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals("ROLE_USER")) {
-                response.sendRedirect("/student-information/" + accountOptional.get().getStudent().getIdStudent());
+                response.sendRedirect("/student/home");
                 return;
             } else if (authority.getAuthority().equals("ROLE_TEACHER")) {
-                response.sendRedirect("/teacher-information/" + accountOptional.get().getTeacher().getIdTeacher());
+                response.sendRedirect("/teacher/home");
                 return;
             }else if (authority.getAuthority().equals("ROLE_ADMIN")) {
                 response.sendRedirect("/school");

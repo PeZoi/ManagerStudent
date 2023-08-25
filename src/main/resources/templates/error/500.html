@@ -1408,7 +1408,8 @@
                     <text transform="matrix(1 0 0 1 47.2058 329.1734)" class="st4"><tspan x="0" y="0" class="st23 st24 st25">Lorem ipsum dolor sit amet, consectetur adipiscing </tspan>
                         <tspan x="0.6" y="11.7"
                                class="st23 st24 st25">elit, sed do eiusmod tempor incididunt ut labore et </tspan>
-                        <tspan x="6.2" y="23.3" class="st23 st24 st25">dolore magna aliqua. Ut enim ad minim veniam.</tspan></text>
+                        <tspan x="6.2" y="23.3"
+                               class="st23 st24 st25">dolore magna aliqua. Ut enim ad minim veniam.</tspan></text>
                     <g class="st4">
         <path class="st10" d="M277,301.4c0,4.3-3.5,7.8-7.8,7.8H32.1c-4.3,0-7.8-3.5-7.8-7.8v-6.5c0-4.3,3.5-7.8,7.8-7.8h237.1
                               c4.3,0,7.8,3.5,7.8,7.8V301.4z"/>
@@ -1593,19 +1594,14 @@
 
       </g>
     </g>
-                <text opacity="0.6" x="15" y="257" fill="#000" font-family="Viga" font-size="25">There is no way Immma
-      <tspan x="35" y="292">let you pass through!</tspan>
-                    <tspan x="100" y="357" fill="#000" font-size="65">403</tspan>
-                    <tspan x="113" y="381.2" fill="#000" font-size="15">CLICK HERE</tspan>
+                <text opacity="0.6" x="15" y="257" fill="#000" font-family="Viga" font-size="30">
+                    <tspan x="27" y="278" fill="#000" font-size="35">SERVER ERROR</tspan>
+                    <tspan x="100" y="357" fill="#000" font-size="65">500</tspan>
     </text>
 
-                <text x="15" y="255" fill="#6BA184" font-family="Viga" font-size="25">There is no way Immma
-      <tspan x="35" y="290">let you pass through!</tspan>
-                    <tspan x="100" y="355" fill="#BF3E73" font-size="65">403</tspan>
-                    <tspan x="113" y="380" fill="#6BA184" font-size="15">
-                        <a class="h5" th:href="@{/student/home}" sec:authorize="hasRole('USER')">CLICK HERE</a>
-                        <a class="h5" th:href="@{/teacher/home}" sec:authorize="hasRole('TEACHER')">CLICK HERE</a>
-                    </tspan>
+                <text x="15" y="255" fill="#6BA184" font-family="Viga" font-size="30">
+                    <tspan x="27" y="275" fill="#7ebe9b" font-size="35">SERVER ERROR</tspan>
+                    <tspan x="100" y="355" fill="#BF3E73" font-size="65">500</tspan>
     </text>
   </g>
 
@@ -1613,20 +1609,7 @@
     </div>
 
 
-
 </div>
-<script th:inline="javascript">
-    // Từ session lấy ra role của account đó
-    const sessionRole = [[${session.account_session.roles}]].at(0).name;
-    const sessionId = [[${session.account_session}]];
-    if (sessionRole === 'ROLE_USER') {
-        // Lấy id của account đó
-        // Thay đổi URL trong lịch sử trình duyệt
-        window.history.pushState({}, "New Page Title", "http://localhost:8080/student/home");
-    } else {
-        window.history.pushState({}, "New Page Title", "http://localhost:8080/teacher/home");
-    }
-</script>
 
 </body>
 </html>

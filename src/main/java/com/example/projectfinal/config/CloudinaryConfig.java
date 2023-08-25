@@ -2,16 +2,14 @@ package com.example.projectfinal.config;
 
 import com.cloudinary.Cloudinary;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class AppConfig {
+public class CloudinaryConfig {
     private final String CLOUD_NAME = "dz8vpmcub";
     private final String API_KEY = "159899294781247";
     private final String API_SECRET = "A8bobjl4f7Dip-mG1gYsU3SDvE4";

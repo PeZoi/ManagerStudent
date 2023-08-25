@@ -42,9 +42,12 @@
 
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"
                     style="font-size: 14px; width: fit-content">
-                    <li><a class="dropdown-item" href="#">Personal Information</a></li>
-                    <li><button id="btn-change-password" type="button" class="btn btn-primary dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-change-password">
-                        Change Your Password </button>
+                    <li><a class="dropdown-item" href="#" id="personal-information">Personal Information</a></li>
+                    <li>
+                        <button id="btn-change-password" type="button" class="btn btn-primary dropdown-item"
+                                data-bs-toggle="modal" data-bs-target="#modal-change-password">
+                            Change Your Password
+                        </button>
                     </li>
                     <li><a class="dropdown-item" th:href="@{/logout}" href="#">Logout</a></li>
                 </ul>
@@ -54,7 +57,8 @@
     </header>
 
     <!--  Modal change password  -->
-    <div class="modal fade" id="modal-change-password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%">
+    <div class="modal fade" id="modal-change-password" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true" style="width: 100%">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -87,10 +91,11 @@
             </div>
         </div>
     </div>
-<!-- Jquery-->
+    <!-- Jquery-->
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <!--  Logic change password  -->
     <script type="text/javascript" th:inline="javascript">
-        document.getElementById("form-change-password").addEventListener("submit", function(event) {
+        document.getElementById("form-change-password").addEventListener("submit", function (event) {
             event.preventDefault();
 
             // Kiểm tra xem password có đúng không
@@ -100,6 +105,7 @@
                 return false;
             }
         });
+
         function handleChangePassword() {
             // Lấy thông tin từ session
             const sessionAccount = [[${session.account_session}]];
@@ -139,6 +145,17 @@
             }
         }
 
+    </script>
+    <!--  Logic set href personal information  -->
+    <script type="text/javascript" th:inline="javascript">
+        // Lấy thông tin từ session
+        const sessionAccount = [[${session.account_session}]];
+        if (sessionAccount.roles.at(0).name == 'ROLE_USER') {
+            $('#personal-information').attr('href', "http://localhost:8080/student/home");
+        }
+        if (sessionAccount.roles.at(0).name == 'ROLE_TEACHER') {
+            $('#personal-information').attr('href', "http://localhost:8080/teacher/home");
+        }
     </script>
 </div>
 

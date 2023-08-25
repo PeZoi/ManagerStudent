@@ -2,13 +2,21 @@ package com.example.projectfinal.controller;
 
 import com.example.projectfinal.entity.Account;
 import com.example.projectfinal.entity.Class;
+import com.example.projectfinal.entity.Student;
+import com.example.projectfinal.entity.Teacher;
+import com.example.projectfinal.repository.AccountRepository;
 import com.example.projectfinal.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -24,6 +32,8 @@ public class MainController {
     private StudentService studentService;
     @Autowired
     private ReportCardService reportCardService;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @GetMapping({"/login"})
     public String login() {
@@ -72,9 +82,28 @@ public class MainController {
             return "student-information";
     }
 
+    @GetMapping("/student/home")
+    public String studentInformationPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        Optional<Account> accountOptional = accountRepository.findByUsername(username);
+        Student student = accountOptional.get().getStudent();
+        model.addAttribute("student", student);
+        model.addAttribute("reportCards", reportCardService.getReportCardByIdStudent(student.getIdStudent()));
+        return "student-information";
+    }
+
     @GetMapping("/teacher-information/{idTeacher}")
     public String teacherInformationPage(Model model, @PathVariable("idTeacher") int idTeacher) {
         model.addAttribute("teacher", teacherService.getTeacher(idTeacher));
+        return "teacher/teacher-information";
+    }
+
+    @GetMapping("/teacher/home")
+    public String teacherInformationPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        Optional<Account> accountOptional = accountRepository.findByUsername(username);
+        Teacher teacher = accountOptional.get().getTeacher();
+        model.addAttribute("teacher", teacherService.getTeacher(teacher.getIdTeacher()));
         return "teacher/teacher-information";
     }
 
