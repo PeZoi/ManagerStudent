@@ -4,9 +4,13 @@ import com.example.projectfinal.dto.StudentDTO;
 import com.example.projectfinal.entity.Class;
 import com.example.projectfinal.entity.*;
 import com.example.projectfinal.repository.*;
+import com.example.projectfinal.service.ExcelUploadService;
 import com.example.projectfinal.service.FileUploadService;
 import com.example.projectfinal.service.StudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,15 +42,18 @@ public class StudentImple implements StudentService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    private RoleRepository roleRepository;
+    private ExcelUploadService excelUploadService;
+    @Autowired
+    private final HttpSession httpSession;
 
     @Autowired
-    public StudentImple(StudentRepository studentRepository, ReportCardRepository reportCardRepository, SubjectRepository subjectRepository, ClassRepository classRepository, ParentRepository parentRepository) {
+    public StudentImple(StudentRepository studentRepository, ReportCardRepository reportCardRepository, SubjectRepository subjectRepository, ClassRepository classRepository, ParentRepository parentRepository, HttpSession httpSession) {
         this.studentRepository = studentRepository;
         this.reportCardRepository = reportCardRepository;
         this.subjectRepository = subjectRepository;
         this.classRepository = classRepository;
         this.parentRepository = parentRepository;
+        this.httpSession = httpSession;
     }
 
     @Override
@@ -152,6 +161,8 @@ public class StudentImple implements StudentService {
             // Chuyển student (JSON) về dạng object java
             Student student_old = objectMapper.readValue(student, Student.class);
 
+            System.out.println(student_old);
+
             // Thêm class vào student
             Optional<Class> classOptional = classRepository.findById(idClass);
             student_old.setClasss(classOptional.get());
@@ -215,6 +226,7 @@ public class StudentImple implements StudentService {
 
             return studentDTO;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -294,4 +306,46 @@ public class StudentImple implements StudentService {
         }
         return studentDTOs;
     }
+
+    // Chỉ nhiều sinh viên chỉ dành cho giáo viên
+    @Override
+    public List<StudentDTO> saveStudentDataFromExcel(MultipartFile file) {
+        // Tạo list student dto để trả về
+        List<StudentDTO> studentsDTOs = new ArrayList<>();
+
+        // Kiểm tra xem có phải file excel không
+        if (excelUploadService.isValidExcelFile(file)) {
+            try {
+                List<Student> students = excelUploadService.getStudentsDataFromExcel(file.getInputStream());
+
+                // Lấy thông tin của teacher ở session để chủ yếu lấy class của teacher đó
+                Account accountSession = (Account) httpSession.getAttribute("account_session");
+                // Lấy class của teacher đó
+                Class classs = accountSession.getTeacher().getClasss();
+
+                // Biến json
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd")
+                        .create();
+
+                // Lưu student
+                for (Student student : students) {
+                    // Biến student thành json vì saveStudentTE nhận parameter là string
+                    String studentJson = gson.toJson(student);
+
+                    StudentDTO studentDTO = saveStudentTE(studentJson, classs.getIdClass());
+                    studentsDTOs.add(studentDTO);
+                }
+
+                return studentsDTOs;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new IllegalArgumentException("The file is not a valid excel file!");
+            }
+        }
+        return studentsDTOs;
+    }
+
+
 }

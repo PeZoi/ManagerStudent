@@ -343,16 +343,31 @@
 <div class="container" style="margin-top: 100px; margin-bottom: 100px">
     <!-- Button trigger modal -->
     <div class="container-buttons">
-        <button id="button-add" type="button" class="btn btn-success rounded-circle">
-            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-        </button>
+
         <div>
+            <!--Button add-->
+            <button id="button-add" type="button" class="btn btn-success rounded-circle">
+                <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+            </button>
+            <!--Button import file-->
+            <label id="button-import-file" type="button" class="ms-2" for="excelFileInput">
+                <!--                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 48 48">-->
+                <!--                    <rect width="16" height="9" x="28" y="15" fill="#21a366"></rect><path fill="#185c37" d="M44,24H12v16c0,1.105,0.895,2,2,2h28c1.105,0,2-0.895,2-2V24z"></path><rect width="16" height="9" x="28" y="24" fill="#107c42"></rect><rect width="16" height="9" x="12" y="15" fill="#3fa071"></rect><path fill="#33c481" d="M42,6H28v9h16V8C44,6.895,43.105,6,42,6z"></path><path fill="#21a366" d="M14,6h14v9H12V8C12,6.895,12.895,6,14,6z"></path><path d="M22.319,13H12v24h10.319C24.352,37,26,35.352,26,33.319V16.681C26,14.648,24.352,13,22.319,13z" opacity=".05"></path><path d="M22.213,36H12V13.333h10.213c1.724,0,3.121,1.397,3.121,3.121v16.425	C25.333,34.603,23.936,36,22.213,36z" opacity=".07"></path><path d="M22.106,35H12V13.667h10.106c1.414,0,2.56,1.146,2.56,2.56V32.44C24.667,33.854,23.52,35,22.106,35z" opacity=".09"></path><linearGradient id="flEJnwg7q~uKUdkX0KCyBa_UECmBSgBOvPT_gr1" x1="4.725" x2="23.055" y1="14.725" y2="33.055" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#18884f"></stop><stop offset="1" stop-color="#0b6731"></stop></linearGradient><path fill="url(#flEJnwg7q~uKUdkX0KCyBa_UECmBSgBOvPT_gr1)" d="M22,34H6c-1.105,0-2-0.895-2-2V16c0-1.105,0.895-2,2-2h16c1.105,0,2,0.895,2,2v16	C24,33.105,23.105,34,22,34z"></path><path fill="#fff" d="M9.807,19h2.386l1.936,3.754L16.175,19h2.229l-3.071,5l3.141,5h-2.351l-2.11-3.93L11.912,29H9.526	l3.193-5.018L9.807,19z"></path>-->
+                <!--                </svg>-->
+                <img width="40" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADSUlEQVR4nO2Xz2sTQRTHt/hbUKltzLz0J1gVRPx1EEVFBBEVqU3eDGktWi8K6kkUFQQjtPtmUxSpHkQQRUVFT15E/AcUUcEetCdPolUURNHS0trI22xsTELTSnY3KXkwbJg3O/l+5v2YxDDKVkIGWiZcGYRvA91KlD6I9hgG3ATxEgZchBBa9v59nm+rLlmQer23EjS+9CQy4CII7+8ZDLgM4hkMeADiCQx4BOI6DHgI4ioMeAziGowfIK7A+AVScBg3QSY7hJa9UwIEJhDFMgiUIyLLqfVf5ndxQ7nYMyzvKRGOCC2tWlJNxtVDM6ArvDbNPyxImqG4Wgax3XNDGtcA4U+h8SLvLQg70u6IPp4LdUbrfImIILXPFmWqAGjcIyx1OM13xhZH0aXCVDJoqXUO/HN7vkutHjsQed+es2SrHyCPUkJB46dMf4haqqq7wiAIB/69oXGo9oKaszymZvLndGih8bLnIEJH0F5DeCPbh0PGAzUt0B1dDCRHs943cbMtnOTrJLRqToLIV56D1MVbQ46Y97n8QTOylf1BjUdTJz8GIk86h3DTXqujjVXx5nlcV96CkBzlEzdiW6ZzweeOmOzj9OJ9QqQ2CMIPY/UjHzoROA4avxsJoyKkI9v8aL/D9gLuVBp/j7PuXY2JK3kpPwXJQecgPtsgFu4Eki+SUOqsHyCJhbH2+fYawv5xBZD8wRFxInA3Nc8tW3RGGoDkbcf3xBcQsNQmWwDhvXwCBOGd5H54Li319nNKCY3HOE05xcAPEKFlD68JmuEVgvBLdiTSawdPZUYEtLxiv6+jjTU6vCofBGiZ4JZdeBCSgyzAFmiqAOd7UKsDDuQv7mpgRlrs7pUwKmrikSU8n+sfnyB5ZCIgQuP1goM4Yr6CiQcZpKlnxywW7fg+ghnZyC2VL0Ug2Z7VpglHUnXGqTfOd3zje4afTkqfLjiI64NwRFBkl62FcLudrnzBEraVFIjgRpBmgvBEMq1xYJEVXl8iIHgrlyah8ZoTrX6wVH1RgwiNT7nmcmlqiHXMBpLPHNg3lZZaULQgkDby68HH/FNpCoBIrplLJQliTNb8hoAySIb5HQ0oRyTD/I4GlCNSRAYTjFLR22RB/gCrCT1imDRDiwAAAABJRU5ErkJggg==">
+                </label>
+            <input type="file" id="excelFileInput" hidden="hidden">
+        </div>
+        <div>
+            <!--Button view-->
             <button id="button-view" class="btn btn-success ml-3" disabled>
                 <i class="fa-regular fa-eye" style="color: #ffffff;"></i>
             </button>
+            <!--Button delete-->
             <button id="button-delete" class="btn btn-danger ml-3" disabled>
                 <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
             </button>
+            <!--Button update-->
             <button id="button-update" class="btn btn-primary ml-3" disabled>
                 <i class="fa-solid fa-pen" style="color: #ffffff;"></i>
             </button>
@@ -403,11 +418,14 @@
 <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
 <!--Slide bar-->
 <script type="text/javascript" th:src="@{/js/slide-bar.js}"></script>
+
+<!--Nav bar active-->
 <script type="text/javascript">
     $(document).ready(function () {
         $('#nav-studentTE').addClass('active');
     })
 </script>
+
 <!--Table-->
 <script type="text/javascript">
     // Create table
@@ -671,67 +689,6 @@
         }
     });
 
-    // // Hàm này lấy thông tin school theo idClass
-    // function getSchool(idClass) {
-    //     $.ajax({
-    //         header: {
-    //             contentType: 'application/json;charset=UTF-8'
-    //         },
-    //         type: "GET",
-    //         contentType: "application/json",
-    //         url: "/class/api/" + idClass,
-    //         success: function (response) {
-    //             // Lấy thông tin ra
-    //             $('#school').val(response.school.idSchool);
-    //             getClasses(response.school.idSchool, idClass);
-    //         },
-    //         error: function (xhr, textStatus, errorThrown) {
-    //             console.log(xhr.status + ': ' + errorThrown + ' ' + xhr.responseText);
-    //         }
-    //     });
-    //
-    // }
-    //
-    // // Hàm này lấy thông tin class theo idSchool hoặc gán selected cho class theo idClass
-    // function getClasses(e, idClass) {
-    //     let idSchool = e;
-    //     // Nếu nó là 1 thẻ html thì gán lại (e 1 là HTML, 2 là number nên phải check)
-    //     if (typeof e === 'object') {
-    //         idSchool = e.value;
-    //     }
-    //
-    //     // Reset select class (chưa có gì)
-    //     $('#class').empty();
-    //     $('#class').append("<option selected value='-1'>No classes</option>");
-    //
-    //     // Nếu như school mà nó chọn lại default thì xoá hết tất cả dữ liệu class đi
-    //     if (idSchool === "-1") {
-    //         return;
-    //     }
-    //     $.ajax({
-    //         header: {
-    //             contentType: 'application/json;charset=UTF-8'
-    //         },
-    //         type: "GET",
-    //         contentType: "application/json",
-    //         url: "/school/api/" + idSchool,
-    //         success: function (response) {
-    //             // Lấy thông tin ra
-    //             response.classes.forEach(function (classs) {
-    //                 $('#class').append("<option value=\'" + classs.idClass + "\'>" + classs.nameClass + "</option>");
-    //             })
-    //
-    //             // Nếu có idClass != null thì selected cái option class đó
-    //             if (idClass != undefined) {
-    //                 $('#class').val(idClass);
-    //             }
-    //         },
-    //         error: function (xhr, textStatus, errorThrown) {
-    //             console.log(xhr.status + ': ' + errorThrown + ' ' + xhr.responseText);
-    //         }
-    //     });
-    // }
-
     // View (xem chi tiết student)
     document.querySelector('#button-view').addEventListener('click', function () {
         // data cần update
@@ -742,6 +699,70 @@
     });
 
 
+</script>
+
+<!--Upload file excel-->
+<script type="text/javascript">
+    const excelFileInput = document.getElementById('excelFileInput');
+
+    function isExcelFile(fileName) {
+        const allowedExtensions = ['.xlsx', '.xls'];
+        const fileExtension = fileName.slice(-5).toLowerCase(); // Lấy phần mở rộng và chuyển thành chữ thường
+
+        return allowedExtensions.includes(fileExtension);
+    }
+
+    excelFileInput.addEventListener('change', () => {
+        // loading
+        $('#loading').show();
+
+        const file = excelFileInput.files[0];
+        // Lấy ra đuôi của file
+        const fileExtension = file.name.slice(-5).toLowerCase();
+
+        if (isExcelFile(fileExtension)) {
+            const formData = new FormData();
+            formData.append('file-data', file);
+
+            fetch('/student/api/upload-students-data', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const studentList = data.students;
+                        for (const student of studentList) {
+                            // Thêm dòng mới vào bảng
+                            table.row.add([
+                                student.idStudent,
+                                student.nameStudent,
+                                student.email,
+                                student.dateOfBirth,
+                                student.address,
+                                student.phoneNumber,
+                                "<img src=\"" + (student.avatar == null ? 'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg' : student.avatar) + "\" width=\"80px\" alt=\"avatar\">"
+                            ]).draw(false);
+                        }
+
+
+                        $('#loading').hide();
+                        alert('success', 'Excel file uploaded successfully (F5)')
+                    } else {
+                        $('#loading').hide();
+                        alert('danger', 'Excel file upload failed')
+                    }
+                })
+                .catch(error => {
+                    $('#loading').hide();
+                    console.error('Lỗi khi thực hiện yêu cầu:', error);
+                    alert('danger', 'Excel file upload failed');
+                });
+        } else {
+            $('#loading').hide();
+            alert('danger', 'Please choose file is excel!');
+        }
+    });
 </script>
 </body>
 

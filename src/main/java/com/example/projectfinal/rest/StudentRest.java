@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/student/api")
@@ -97,6 +98,18 @@ public class StudentRest {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/upload-students-data")
+    @Transactional
+    public ResponseEntity<?> uploadStudentExcel(@RequestParam("file-data") MultipartFile file) {
+        try{
+            List<StudentDTO> studentsDTOs = studentService.saveStudentDataFromExcel(file);
+            return ResponseEntity.ok(Map.of("success", true, "students", studentsDTOs));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok(Map.of("success", false));
         }
     }
 }

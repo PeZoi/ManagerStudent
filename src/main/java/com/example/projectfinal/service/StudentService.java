@@ -21,4 +21,6 @@ public interface StudentService {
     public void deleteStudent(int idStudent);
 
     public List<StudentDTO> getAllStudentsByClass(Class classs);
+
+    public List<StudentDTO> saveStudentDataFromExcel(MultipartFile file);
 }

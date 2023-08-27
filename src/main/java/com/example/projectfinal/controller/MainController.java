@@ -1,5 +1,7 @@
 package com.example.projectfinal.controller;
 
+import com.example.projectfinal.dto.StudentDTO;
+import com.example.projectfinal.dto.TeacherDTO;
 import com.example.projectfinal.entity.Account;
 import com.example.projectfinal.entity.Class;
 import com.example.projectfinal.entity.Student;
@@ -8,7 +10,6 @@ import com.example.projectfinal.repository.AccountRepository;
 import com.example.projectfinal.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -77,9 +78,14 @@ public class MainController {
 
     @GetMapping("/student-information/{idStudent}")
     public String studentInformationPage(Model model, @PathVariable("idStudent") int idStudent) {
-            model.addAttribute("student", studentService.getStudent(idStudent));
-            model.addAttribute("reportCards", reportCardService.getReportCardByIdStudent(idStudent));
-            return "student-information";
+        StudentDTO studentDTO = studentService.getStudent(idStudent);
+        // Nếu không có idStudent nào thì chuyển về trang 404
+        if (studentDTO == null) {
+            return "error/404";
+        }
+        model.addAttribute("student", studentService.getStudent(idStudent));
+        model.addAttribute("reportCards", reportCardService.getReportCardByIdStudent(idStudent));
+        return "student-information";
     }
 
     @GetMapping("/student/home")
@@ -94,6 +100,11 @@ public class MainController {
 
     @GetMapping("/teacher-information/{idTeacher}")
     public String teacherInformationPage(Model model, @PathVariable("idTeacher") int idTeacher) {
+        TeacherDTO teacherDTO = teacherService.getTeacher(idTeacher);
+        // Nếu không có idTeacher nào thì chuyển về trang 404
+        if (teacherDTO == null) {
+            return "error/404";
+        }
         model.addAttribute("teacher", teacherService.getTeacher(idTeacher));
         return "teacher/teacher-information";
     }
@@ -109,7 +120,7 @@ public class MainController {
 
     @GetMapping("/student-te")
     public String studentTEPage(Model model, HttpSession session) {
-        try{
+        try {
             Account sessionObject = (Account) session.getAttribute("account_session");
             // Lấy id class ra
             Class classs = sessionObject.getTeacher().getClasss();
