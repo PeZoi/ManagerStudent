@@ -112,15 +112,17 @@ public class ClassRest {
     @DeleteMapping("/delete/{idClass}")
     @Transactional
     public ResponseEntity<?> deleteClass(@PathVariable Integer idClass) {
-        Optional<Class> classOptional = classService.getClass(idClass);
-        if (classOptional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        // Set school về null để nó không còn mối quan hệ thì mới xoá được
-        classOptional.get().setSchool(null);
-        classService.saveClass(classOptional.get());
+        try{
+            Optional<Class> classOptional = classService.getClass(idClass);
+            if (classOptional.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-        classService.deleteClass(idClass);
-        return new ResponseEntity<>(HttpStatus.OK);
+            classService.deleteClass(idClass);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

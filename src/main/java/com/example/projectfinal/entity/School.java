@@ -29,7 +29,7 @@ public class School {
     @Column(name = "avatar_school")
     private String avatarSchool;
 
-    @OneToMany(mappedBy = "school",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "school",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Class> classes;
 

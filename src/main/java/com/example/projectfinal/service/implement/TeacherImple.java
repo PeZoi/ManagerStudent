@@ -181,7 +181,9 @@ public class TeacherImple implements TeacherService {
 
             // Xoá account đi trước rồi mới xoá được teacher
             Optional<Account> accountOptional = accountRepository.findByTeacher(teacherOptional.get());
-            accountRepository.deleteById(accountOptional.get().getId());
+            if (accountOptional.isPresent()) {
+                accountRepository.deleteById(accountOptional.get().getId());
+            }
 
             teacherRepository.delete(teacherOptional.get());
         } catch (Exception e) {

@@ -161,8 +161,6 @@ public class StudentImple implements StudentService {
             // Chuyển student (JSON) về dạng object java
             Student student_old = objectMapper.readValue(student, Student.class);
 
-            System.out.println(student_old);
-
             // Thêm class vào student
             Optional<Class> classOptional = classRepository.findById(idClass);
             student_old.setClasss(classOptional.get());

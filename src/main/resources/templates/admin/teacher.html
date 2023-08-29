@@ -351,6 +351,10 @@
         <button id="button-add" type="button" class="btn btn-success rounded-circle">
             <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
         </button>
+
+        <p class="h3" style="display: inline-block"><span class="badge" style="background-color: var(--color-main) !important;">TEACHER</span></p>
+
+
         <div>
             <button id="button-delete" class="btn btn-danger ml-3" disabled>
                 <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
@@ -382,7 +386,7 @@
                 <td th:text="${teacher.getDateOfBirth()}"></td>
                 <td th:text="${teacher.getAddress()}"></td>
                 <td th:text="${teacher.getPhoneNumber()}"></td>
-                <td th:text="${teacher.getClasss() != null} ? ${teacher.getClasss().getNameClass() + '(' + teacher.getClasss().getSchool().getNameSchool() + ')'} : 'No Class' "></td>
+                <td th:text="${teacher.getClasss() != null} ? ${teacher.getClasss().getNameClass() + '(' + teacher.classs?.school?.nameSchool + ')'} : 'No Class' "></td>
                 <td><img id="avatar-teacher" th:src="${teacher.getAvatar() != null} ? ${teacher.getAvatar()} : 'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg'" width="80px" alt="avatar"></td>
             </tr>
             </tbody>

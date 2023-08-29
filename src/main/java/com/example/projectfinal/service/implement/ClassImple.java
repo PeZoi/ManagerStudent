@@ -3,11 +3,13 @@ package com.example.projectfinal.service.implement;
 import com.example.projectfinal.dto.ClassDTO;
 import com.example.projectfinal.entity.Class;
 import com.example.projectfinal.entity.School;
-import com.example.projectfinal.entity.Teacher;
+import com.example.projectfinal.entity.Student;
 import com.example.projectfinal.repository.ClassRepository;
 import com.example.projectfinal.repository.SchoolRepository;
+import com.example.projectfinal.repository.StudentRepository;
 import com.example.projectfinal.repository.TeacherRepository;
 import com.example.projectfinal.service.ClassService;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ClassImple implements ClassService {
     private SchoolRepository schoolRepository;
     @Autowired
     private TeacherRepository teacherRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+
 
     @Override
     public Optional<Class> getClass(int idClass) {
@@ -51,7 +56,7 @@ public class ClassImple implements ClassService {
     @Override
     @Transactional
     public ClassDTO updateClass(Class classs, int idSchool) {
-        try{
+        try {
             Optional<Class> classOptional = classRepository.findById(classs.getIdClass());
 
             Optional<School> schoolOptional = schoolRepository.findById(idSchool);
@@ -69,7 +74,27 @@ public class ClassImple implements ClassService {
     }
 
     @Override
+    @Transactional
     public void deleteClass(Integer idClass) {
-        classRepository.deleteById(idClass);
+        try {
+            Optional<Class> classOptional = classRepository.findById(idClass);
+
+            // Set school và teacher về null để nó không còn mối quan hệ thì mới xoá được
+            classOptional.get().setTeacher(null);
+            classOptional.get().setSchool(null);
+
+            // Set student học lớp chuẩn bị xoá thành null
+            List<Student> students = studentRepository.findStudentsByClasss(classOptional.get());
+            for (Student student : students) {
+                student.setClasss(null);
+                studentRepository.saveAndFlush(student);
+            }
+
+            Class classs = classRepository.save(classOptional.get());
+
+            classRepository.delete(classs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -27,7 +27,8 @@ public class Class {
     @Column(name = "enrollment")
     private int enrollment; // sĩ số
 
-    @ManyToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+//    @ManyToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_school")
     @JsonIgnore
     private School school;
