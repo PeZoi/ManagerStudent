@@ -22,12 +22,12 @@ public class ReportCard {
     @JsonIgnore
     private List<ReportCardDetail> reportCardDetail;
 
-    @ManyToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "id_student")
     @JsonIgnore
     private Student student;
 
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_subject")
     private Subject subject;
 

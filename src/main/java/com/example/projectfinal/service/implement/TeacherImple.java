@@ -147,9 +147,11 @@ public class TeacherImple implements TeacherService {
             } else {
                 // Nếu không chọn class
                 Optional<Teacher> tempTeacher = teacherRepository.findById(teacher_old.getIdTeacher());
-                Optional<Class> classOptional = classRepository.findById(tempTeacher.get().getClasss().getIdClass());
-                classOptional.get().setTeacher(null);
-                teacher_old.setClasss(null);
+                if (tempTeacher.get().getClasss() != null) {
+                    Optional<Class> classOptional = classRepository.findById(tempTeacher.get().getClasss().getIdClass());
+                    classOptional.get().setTeacher(null);
+                    teacher_old.setClasss(null);
+                }
             }
 
 
@@ -171,21 +173,23 @@ public class TeacherImple implements TeacherService {
     public void deleteTeacher(int idTeacher) {
         try{
             Optional<Teacher> teacherOptional = teacherRepository.findById(idTeacher);
-            // Kiểm tra xem nếu có class thì set về null
-            if (teacherOptional.get().getClasss() != null) {
-                Optional<Class> classOptional = classRepository.findById(teacherOptional.get().getClasss().getIdClass());
-                classOptional.get().setTeacher(null);
-            }
-            // Set subject về null
-            teacherOptional.get().setSubjects(null);
-
             // Xoá account đi trước rồi mới xoá được teacher
             Optional<Account> accountOptional = accountRepository.findByTeacher(teacherOptional.get());
             if (accountOptional.isPresent()) {
                 accountRepository.deleteById(accountOptional.get().getId());
             }
 
-            teacherRepository.delete(teacherOptional.get());
+            // Kiểm tra xem nếu có class thì set về null
+            if (teacherOptional.get().getClasss() != null) {
+                Optional<Class> classOptional = classRepository.findById(teacherOptional.get().getClasss().getIdClass());
+                classOptional.get().setTeacher(null);
+                classRepository.saveAndFlush(classOptional.get());
+            }
+            // Set subject về null
+            teacherOptional.get().setSubjects(null);
+
+            teacherRepository.deleteById(teacherOptional.get().getIdTeacher());
+            System.out.println("Xoá rồi mà");
         } catch (Exception e) {
             e.printStackTrace();
         }

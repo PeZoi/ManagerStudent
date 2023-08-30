@@ -79,20 +79,16 @@ public class ClassImple implements ClassService {
         try {
             Optional<Class> classOptional = classRepository.findById(idClass);
 
-            // Set school và teacher về null để nó không còn mối quan hệ thì mới xoá được
-            classOptional.get().setTeacher(null);
-            classOptional.get().setSchool(null);
-
             // Set student học lớp chuẩn bị xoá thành null
             List<Student> students = studentRepository.findStudentsByClasss(classOptional.get());
             for (Student student : students) {
                 student.setClasss(null);
-                studentRepository.saveAndFlush(student);
+                studentRepository.save(student);
             }
 
-            Class classs = classRepository.save(classOptional.get());
+//            Class classs = classRepository.save(classOptional.get());
 
-            classRepository.delete(classs);
+            classRepository.delete(classOptional.get());
         } catch (Exception e) {
             e.printStackTrace();
         }

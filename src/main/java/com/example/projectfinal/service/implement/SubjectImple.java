@@ -144,13 +144,15 @@ public class SubjectImple implements SubjectService {
             }
 
             // Set Teacher có liên quan đến subject về null
-            for (Teacher teacher : subject.getTeachers()) {
+            List<Teacher> teachers = subject.getTeachers();
+            for (Teacher teacher : teachers) {
                 teacher.getSubjects().remove(subject);
+                teacherRepository.save(teacher);
             }
 
-            // Cập nhật lại thông tin của Teacher sau khi xóa Subject
-            teacherRepository.saveAll(subject.getTeachers());
+            subjectRepository.delete(subject);
+            System.out.println("Xoá r");
         }
-        subjectRepository.deleteById(idSubject);
+
     }
 }
