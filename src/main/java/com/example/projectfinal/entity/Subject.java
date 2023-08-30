@@ -19,7 +19,7 @@ public class Subject {
     private int idSubject;
     private String nameSubject;
 
-    @ManyToMany(mappedBy = "subjects",fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToMany(mappedBy = "subjects")
     @JsonIgnore
     private List<Teacher> teachers;
 

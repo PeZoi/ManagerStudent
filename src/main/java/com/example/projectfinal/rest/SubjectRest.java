@@ -81,6 +81,7 @@ public class SubjectRest {
             subjectService.deleteSubject(idSubject);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

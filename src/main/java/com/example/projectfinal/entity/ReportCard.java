@@ -27,7 +27,7 @@ public class ReportCard {
     @JsonIgnore
     private Student student;
 
-    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToOne (cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "id_subject")
     private Subject subject;
 
@@ -35,6 +35,7 @@ public class ReportCard {
     public String toString() {
         return "ReportCard{" +
                 "idReportCard=" + idReportCard +
+                ", idSubject=" + subject +
                 '}';
     }
 }
