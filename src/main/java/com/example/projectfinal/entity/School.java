@@ -1,7 +1,6 @@
 package com.example.projectfinal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,7 +28,7 @@ public class School {
     @Column(name = "avatar_school")
     private String avatarSchool;
 
-    @OneToMany(mappedBy = "school",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "school", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.REFRESH})
     @JsonIgnore
     private List<Class> classes;
 

@@ -476,6 +476,7 @@
             data: idSchool,
             success: function (response) {
                 alert("success", " Deleted successfully!");
+                table.row('.selected').remove().draw(false);
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.log(xhr.status + ': ' + errorThrown);
@@ -492,7 +493,7 @@
         $('#modal-confirm-id').text(schoolObject[0]);
         $('#button-delete-confirm').on("click", function () {
             remove(schoolObject[0]);
-            table.row('.selected').remove().draw(false);
+
             $('#button-delete').attr('disabled', 'disabled');
             $('#button-update').attr('disabled', 'disabled');
             $('#model-confirm').modal('hide');

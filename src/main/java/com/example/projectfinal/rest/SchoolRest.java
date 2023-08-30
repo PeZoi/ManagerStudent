@@ -100,11 +100,17 @@ public class SchoolRest {
     }
 
     @DeleteMapping("/delete/{idSchool}")
-    public ResponseEntity<School> deleteSchool(@PathVariable int idSchool) {
-        Optional<School> schoolOptional = schoolService.getSchool(idSchool);
-        return schoolOptional.map(school -> {
-            schoolService.deleteSchool(idSchool);
-            return new ResponseEntity<>(school, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<?> deleteSchool(@PathVariable int idSchool) {
+        try{
+            Optional<School> schoolOptional = schoolService.getSchool(idSchool);
+            if (schoolOptional.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            schoolService.deleteSchool(schoolOptional.get().getIdSchool());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

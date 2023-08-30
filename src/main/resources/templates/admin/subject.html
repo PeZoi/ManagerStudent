@@ -425,6 +425,7 @@
             url: url,
             data: idSubject,
             success: function (response) {
+                table.row('.selected').remove().draw(false);
                 alert("success", " Deleted successfully!");
             },
             error: function (xhr, textStatus, errorThrown) {
@@ -444,7 +445,7 @@
         $('#button-delete-confirm').on("click", function () {
             // Xoá subject
             remove(subjectObject[0]);
-            table.row('.selected').remove().draw(false);
+
             // Tắt các nút update và delete đi
             $('#button-delete').attr('disabled', 'disabled');
             $('#button-update').attr('disabled', 'disabled');

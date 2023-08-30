@@ -22,12 +22,12 @@ public class ReportCard {
     @JsonIgnore
     private List<ReportCardDetail> reportCardDetail;
 
-    @ManyToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "id_student")
     @JsonIgnore
     private Student student;
 
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "id_subject")
     private Subject subject;
 
@@ -35,6 +35,7 @@ public class ReportCard {
     public String toString() {
         return "ReportCard{" +
                 "idReportCard=" + idReportCard +
+                ", idSubject=" + subject +
                 '}';
     }
 }

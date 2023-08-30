@@ -28,7 +28,7 @@ public class Student {
     private String email;
     private String avatar;
 
-    @ManyToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne (cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "id_class")
     @JsonIgnore
     private Class classs;
@@ -51,6 +51,7 @@ public class Student {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", id_class=" + classs + '\'' +
                 '}';
     }
 }

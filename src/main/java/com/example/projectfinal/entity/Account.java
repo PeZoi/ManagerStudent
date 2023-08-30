@@ -23,15 +23,15 @@ public class Account {
     private String password;
     private Boolean enable;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-    @OneToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @OneToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne (fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 

@@ -136,21 +136,24 @@ public class SubjectImple implements SubjectService {
         if (subjectOptional.isPresent()) {
             Subject subject = subjectOptional.get();
 
-            // Set Report Card có liên quan đến subject về null
+            // Xoá Report Card có liên quan đến subject
             List<ReportCard> reportCards = reportCardRepository.findBySubject(subject);
             for (ReportCard reportCard : reportCards) {
                 reportCard.setSubject(null);
                 reportCardRepository.delete(reportCard);
             }
 
-            // Set Teacher có liên quan đến subject về null
-            for (Teacher teacher : subject.getTeachers()) {
-                teacher.getSubjects().remove(subject);
+            // Set Teacher có liên quan đến subject
+            List<Teacher> teachers = subject.getTeachers();
+            for (Teacher teacher : teachers) {
+                List<Subject> subjectList = teacher.getSubjects();
+                subjectList.remove(subject);
+                teacher.setSubjects(subjectList);
+                teacherRepository.saveAndFlush(teacher);
             }
 
-            // Cập nhật lại thông tin của Teacher sau khi xóa Subject
-            teacherRepository.saveAll(subject.getTeachers());
+            subjectRepository.delete(subject);
         }
-        subjectRepository.deleteById(idSubject);
+
     }
 }

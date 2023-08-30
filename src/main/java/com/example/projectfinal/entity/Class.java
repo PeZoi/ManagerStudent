@@ -27,17 +27,17 @@ public class Class {
     @Column(name = "enrollment")
     private int enrollment; // sĩ số
 
-//    @ManyToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne (fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "id_school")
     @JsonIgnore
     private School school;
 
-    @OneToMany (mappedBy = "classs", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany (mappedBy = "classs", cascade = {CascadeType.REFRESH})
     @JsonIgnore
     private List<Student> students;
 
-    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//    @OneToOne (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne (cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "id_teacher")
 //    @JsonIgnore
     private Teacher teacher;

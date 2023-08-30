@@ -26,11 +26,11 @@ public class Teacher {
     private String email;
     private String avatar;
 
-    @OneToOne (mappedBy = "teacher",cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne (mappedBy = "teacher",cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JsonIgnore
     private Class classs;
 
-    @ManyToMany (fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "teacher_subject", joinColumns = @JoinColumn(name = "teacher_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     @JsonIgnore
     private List<Subject> subjects;
