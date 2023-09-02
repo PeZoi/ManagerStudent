@@ -1,4 +1,4 @@
-![image](https://github.com/PeZoi/ManagerStudent/assets/87312316/35c3b779-0c60-41dc-a3f0-7671902488fb)# Student Project Manager
+# Student Project Manager
 
 ## Introduction
 This is my first project using [SPRING BOOT](https://spring.io/projects/spring-boot) and [SPRING FRAMEWORK 6.0.xx](https://spring.io/projects/spring-framework). My project mainly focuses on CRUD operations. I hope everyone will accept it, and if you find any bugs or errors in the project, feel free to [contact me](https://www.facebook.com/dongph.0502).
