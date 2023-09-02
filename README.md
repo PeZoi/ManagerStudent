@@ -1,4 +1,4 @@
-# Student Project Manager
+![image](https://github.com/PeZoi/ManagerStudent/assets/87312316/35c3b779-0c60-41dc-a3f0-7671902488fb)# Student Project Manager
 
 ## Introduction
 This is my first project using [SPRING BOOT](https://spring.io/projects/spring-boot) and [SPRING FRAMEWORK 6.0.xx](https://spring.io/projects/spring-framework). My project mainly focuses on CRUD operations. I hope everyone will accept it, and if you find any bugs or errors in the project, feel free to [contact me](https://www.facebook.com/dongph.0502).
@@ -7,6 +7,17 @@ This is my first project using [SPRING BOOT](https://spring.io/projects/spring-b
 1. Basic CRUD (Create, Read, Update, Delete) operations for entities.
 2. Image upload using [Cloudinary](https://cloudinary.com/).
 3. Student data upload via Excel file (Limited to role: Teacher).
+
+#### Format Excel File
+- **Sheet Name**: First, ensure that you name the sheet as `Students`.
+   ![image](https://github.com/PeZoi/ManagerStudent/assets/87312316/9ca51c8c-8baa-45f6-9afd-b6887ee4ce03)
+
+- **First Row**: In the first row, you can either write a title (or leave it blank), but please note that the first row will not be added to the database.
+
+-  **Data Entry**: For all other rows, please input the data as shown in the image below:
+   ![image](https://github.com/PeZoi/ManagerStudent/assets/87312316/5c80117d-f13f-439a-8d61-9730feca3452)
+
+Ensure that you follow these instructions for proper Excel file formatting.
 
 ## Programming Languages
 
