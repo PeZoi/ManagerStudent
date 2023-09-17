@@ -17,9 +17,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, length = 191)
     private String username;
-    @Column(name = "password", length = 256)
+    @Column(name = "password", length = 191)
     private String password;
     private Boolean enable;
 
