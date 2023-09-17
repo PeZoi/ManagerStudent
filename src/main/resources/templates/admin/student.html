@@ -763,6 +763,7 @@
         // Lấy data trong csdl
         const currentDomain = window.location.protocol + '//' + window.location.host;
         const url = currentDomain + "/student-information/" + idStudent;
+        console.log(url);
         if (classStudent !== "No Class") {
             window.location.href = url;
         } else {
