@@ -150,11 +150,16 @@
     <script type="text/javascript" th:inline="javascript">
         // Lấy thông tin từ session
         const sessionAccount = [[${session.account_session}]];
+        const currentDomain = window.location.protocol + '//' + window.location.host;
+        var url;
         if (sessionAccount.roles.at(0).name == 'ROLE_USER') {
-            $('#personal-information').attr('href', "http://localhost:8080/student/home");
+            url = currentDomain + "/student/home";
+            console.log(url);
+            $('#personal-information').attr('href', url);
         }
         if (sessionAccount.roles.at(0).name == 'ROLE_TEACHER') {
-            $('#personal-information').attr('href', "http://localhost:8080/teacher/home");
+            url = currentDomain + "/teacher/home";
+            $('#personal-information').attr('href', url);
         }
     </script>
 </div>
