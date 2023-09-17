@@ -698,7 +698,8 @@
         const idStudent = table.row('.selected').data()[0];
         const classStudent = table.row('.selected').data()[6];
         // Lấy data trong csdl
-        window.location.href = "http://localhost:8080/student-information/" + idStudent;
+        const currentDomain = window.location.protocol + '//' + window.location.host;
+        window.location.href = currentDomain + "http://localhost:8080/student-information/" + idStudent;
     });
 
 
